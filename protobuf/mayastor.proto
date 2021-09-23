@@ -245,7 +245,8 @@ message CreateNexusV2Request {
   uint32 minCntlId = 4;  // minimum NVMe controller ID
   uint32 maxCntlId = 5;  // maximum NVMe controller ID
   uint64 resvKey = 6;    // NVMe reservation key for children
-  repeated string children = 7; // uris to the targets we connect to
+  uint64 preemptKey = 7; // NVMe preempt key for children
+  repeated string children = 8; // uris to the targets we connect to
 }
 
 // State of the nexus child.
