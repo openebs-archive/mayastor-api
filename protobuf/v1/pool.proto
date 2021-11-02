@@ -1,0 +1,79 @@
+
+syntax = "proto3";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+
+package mayastor.v1;
+
+service PoolRpc {
+  // Storage pool related methods.
+  //
+  // Storage pool is made up of block devices disks and provides a storage
+  // space for provisioning of replicas.
+  rpc CreatePool (CreatePoolRequest) returns (Pool) {}
+  rpc DestroyPool (DestroyPoolRequest) returns (google.protobuf.Empty) {}
+  rpc ImportPool (ImportPoolRequest) returns (Pool) {}
+  rpc ListPools (ListPoolOptions) returns (ListPoolsResponse) {}
+}
+
+// Create pool arguments.
+message CreatePoolRequest {
+  string name = 1;           // name of the pool
+  repeated string disks = 2; // disk device paths or URIs to be claimed by the pool
+  PoolType pooltype = 3;     // type of the pool
+}
+
+// Create pool arguments.
+message ImportPoolRequest {
+  string name = 1;           // name of the pool
+  repeated string disks = 2; // disk device paths or URIs to be claimed by the pool
+  PoolType pooltype = 3;     // type of the pool
+}
+
+// State of the storage pool (terminology comes from ZFS).
+enum PoolState {
+  POOL_UNKNOWN = 0;
+  POOL_ONLINE = 1;   // the pool is in normal working order
+  POOL_DEGRADED = 2; // the pool has experienced a failure but can still function
+  POOL_FAULTED = 3;  // the pool is completely inaccessible
+}
+
+enum PoolType {
+  Lvs = 0;  // pool backed by spdk lvs
+}
+
+// Storage pool properties
+message Pool {
+  string uuid = 1;            // uuid of the pool
+  string name = 2;            // name of the pool
+  repeated string disks = 3;  // absolute disk paths claimed by the pool
+  PoolState state = 4;        // current state of the pool
+  uint64 capacity = 5;        // size of the pool in bytes
+  uint64 used = 6;            // used bytes from the pool
+  PoolType pooltype = 7;      // type of the pool
+}
+
+// Destroy pool arguments.
+message DestroyPoolRequest {
+  string uuid = 1;  // uuid of the pool
+}
+
+// List of pools and their properties.
+message ListPoolsResponse {
+  repeated Pool pools = 1;  // list of the pools
+}
+
+message ListPoolOptions {
+  // list the pools matching the name if provided
+  oneof name_value {
+    string name = 1;
+    google.protobuf.NullValue nullName = 2;
+  }
+
+  // list the pools matching the type if provided
+  oneof pool_type {
+    PoolType type = 3;
+    google.protobuf.NullValue nullType = 4;
+  }
+}
