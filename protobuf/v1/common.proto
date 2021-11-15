@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package mayastor.v1;
+
+enum PoolType {
+  Lvs = 0;  // pool backed by spdk lvs
+}
+
+// The wrapper for pooltype.
+// It helps in defining optional fields
+// when required.
+message PoolTypeValue {
+  PoolType value = 1;
+}
+  

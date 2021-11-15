@@ -1,8 +1,9 @@
 
 syntax = "proto3";
 
-import "google/protobuf/struct.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "common.proto";
 
 package mayastor.v1;
 
@@ -13,6 +14,7 @@ service PoolRpc {
   // space for provisioning of replicas.
   rpc CreatePool (CreatePoolRequest) returns (Pool) {}
   rpc DestroyPool (DestroyPoolRequest) returns (google.protobuf.Empty) {}
+  rpc ExportPool (ExportPoolRequest) returns (google.protobuf.Empty) {}
   rpc ImportPool (ImportPoolRequest) returns (Pool) {}
   rpc ListPools (ListPoolOptions) returns (ListPoolsResponse) {}
 }
@@ -20,15 +22,17 @@ service PoolRpc {
 // Create pool arguments.
 message CreatePoolRequest {
   string name = 1;           // name of the pool
-  repeated string disks = 2; // disk device paths or URIs to be claimed by the pool
-  PoolType pooltype = 3;     // type of the pool
+  google.protobuf.StringValue uuid = 2; // optional uuid for the pool to be created
+  repeated string disks = 3; // disk device paths or URIs to be claimed by the pool
+  PoolType pooltype = 4;     // type of the pool
 }
 
 // Create pool arguments.
 message ImportPoolRequest {
   string name = 1;           // name of the pool
-  repeated string disks = 2; // disk device paths or URIs to be claimed by the pool
-  PoolType pooltype = 3;     // type of the pool
+  google.protobuf.StringValue uuid = 2; // optional uuid for the pool to be imported
+  repeated string disks = 3; // disk device paths or URIs to be claimed by the pool
+  PoolType pooltype = 4;     // type of the pool
 }
 
 // State of the storage pool (terminology comes from ZFS).
@@ -39,9 +43,6 @@ enum PoolState {
   POOL_FAULTED = 3;  // the pool is completely inaccessible
 }
 
-enum PoolType {
-  Lvs = 0;  // pool backed by spdk lvs
-}
 
 // Storage pool properties
 message Pool {
@@ -56,7 +57,14 @@ message Pool {
 
 // Destroy pool arguments.
 message DestroyPoolRequest {
-  string uuid = 1;  // uuid of the pool
+  string name = 1;  // name of the pool
+  google.protobuf.StringValue uuid = 2; // optional uuid for the pool to be destroyed
+}
+
+// Export pool arguments.
+message ExportPoolRequest {
+  string name = 1;  // name of the pool
+  google.protobuf.StringValue uuid = 2; // optional uuid for the pool to be exported
 }
 
 // List of pools and their properties.
@@ -65,15 +73,6 @@ message ListPoolsResponse {
 }
 
 message ListPoolOptions {
-  // list the pools matching the name if provided
-  oneof name_value {
-    string name = 1;
-    google.protobuf.NullValue nullName = 2;
-  }
-
-  // list the pools matching the type if provided
-  oneof pool_type {
-    PoolType type = 3;
-    google.protobuf.NullValue nullType = 4;
-  }
+  google.protobuf.StringValue name = 1; // list the pools matching the name if provided
+  PoolTypeValue pooltype = 2; // optional pooltype filter
 }
