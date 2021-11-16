@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package mayastor.v1;
 
+// Specifies the type of the pool
 enum PoolType {
   Lvs = 0;  // pool backed by spdk lvs
 }
@@ -13,3 +14,9 @@ message PoolTypeValue {
   PoolType value = 1;
 }
   
+// Protocol over which the bdev/replica/nexus etc will be shared.
+enum ShareProtocol {
+  NONE = 0; // not exposed
+  NVMF = 1; // NVMe over Fabrics (TCP)
+  ISCSI = 2; // iSCSI
+}

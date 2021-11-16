@@ -43,7 +43,6 @@ enum PoolState {
   POOL_FAULTED = 3;  // the pool is completely inaccessible
 }
 
-
 // Storage pool properties
 message Pool {
   string uuid = 1;            // uuid of the pool

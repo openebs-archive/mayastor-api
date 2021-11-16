@@ -4,6 +4,7 @@ package mayastor.v1;
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/empty.proto";
+import "common.proto";
 
 // Service to operate directly on block devices
 service BdevRpc {
@@ -57,17 +58,11 @@ message ListBdevResponse {
   repeated BdevResponse bdevs = 1;
 }
 
-enum ShareProtocolBdev {
-  NONE = 0;
-  NVMF = 1;   // NVMe over Fabrics (TCP)
-  ISCSI = 2;  // iSCSI
-}
-
 message BdevShareRequest {
   // name of the bdev to share
   string name = 1;
   // the protocol to use
-  ShareProtocolBdev protocol = 2;
+  ShareProtocol protocol = 2;
 }
 
 message BdevShareResponse {
