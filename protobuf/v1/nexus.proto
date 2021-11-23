@@ -28,6 +28,18 @@ service NexusRpc {
   rpc GetNvmeAnaState (GetNvmeAnaStateRequest) returns (GetNvmeAnaStateResponse) {}
   rpc SetNvmeAnaState (SetNvmeAnaStateRequest) returns (SetNvmeAnaStateResponse) {}
 
+  // Nexus child operations
+  rpc ChildOperation(ChildOperationRequest) returns (google.protobuf.Empty) {}
+
+  // Rebuild operations
+  rpc StartRebuild (StartRebuildRequest) returns (google.protobuf.Empty) {}
+  rpc StopRebuild (StopRebuildRequest) returns (google.protobuf.Empty) {}
+  rpc PauseRebuild (PauseRebuildRequest) returns (google.protobuf.Empty) {}
+  rpc ResumeRebuild (ResumeRebuildRequest) returns (google.protobuf.Empty) {}
+  rpc GetRebuildState (RebuildStateRequest) returns (RebuildStateResponse) {}
+  rpc GetRebuildStats (RebuildStatsRequest) returns (RebuildStatsResponse) {}
+  rpc GetRebuildProgress (RebuildProgressRequest) returns (RebuildProgressResponse) {}
+
 }
 
 // Create nexus arguments.
@@ -164,4 +176,68 @@ message GetNvmeAnaStateResponse {
 message SetNvmeAnaStateRequest {
   string uuid = 1;   // uuid of the nexus
   NvmeAnaState ana_state = 2;
+}
+
+enum ChildAction {
+  Offline = 0;
+  Online = 1;
+}
+
+message ChildOperationRequest {
+  string uuid = 1; // uuid of the nexus
+  string uri = 2; // uri of the child to act upon
+  ChildAction action = 3;
+}
+
+message RebuildStateRequest {
+  string uuid = 1;  // uuid of the nexus
+  string uri = 2;   // uri of the destination child
+}
+
+message RebuildStateResponse {
+  string state = 1; // current rebuild state (i.e. ready/running/completed etc.)
+}
+
+message RebuildStatsRequest {
+  string uuid = 1;  // uuid of the nexus
+  string uri = 2;   // uri of the destination child
+}
+
+message RebuildStatsResponse {
+  uint64 blocks_total = 1; // total number of blocks to recover
+  uint64 blocks_recovered = 2; // number of blocks recovered
+  uint64 progress = 3; // rebuild progress %
+  uint64 segment_size_blks = 4; // granularity of each recovery copy in blocks
+  uint64 block_size = 5; // size in bytes of each block
+  uint64 tasks_total = 6; // total number of concurrent rebuild tasks
+  uint64 tasks_active = 7; // number of current active tasks
+}
+
+message StartRebuildRequest {
+  string uuid = 1;  // uuid of the nexus
+  string uri = 2;   // uri of the child to be rebuilt
+}
+
+message StopRebuildRequest {
+  string uuid = 1;  // uuid of the nexus
+  string uri = 2;   // uri of the destination child
+}
+
+message PauseRebuildRequest {
+  string uuid = 1;  // uuid of the nexus
+  string uri = 2;   // uri of the destination child
+}
+
+message ResumeRebuildRequest {
+  string uuid = 1;  // uuid of the nexus
+  string uri = 2;   // uri of the destination child
+}
+
+message RebuildProgressRequest {
+  string uuid = 1;  // uuid of the nexus
+  string uri = 2;   // uri of the destination child
+}
+
+message RebuildProgressResponse {
+  uint32 progress = 1;  // progress percentage
 }
