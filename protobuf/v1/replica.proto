@@ -20,7 +20,7 @@ service ReplicaRpc {
 message CreateReplicaRequest {
   string name = 1;  // name of the replica
   string uuid = 2;  // uuid of the replica
-  string pool = 3;  // name of the pool on which replica needs to be created.
+  string pooluuid = 3;  // uuid of the pool on which replica needs to be created.
   uint64 size = 4;  // size of the replica in bytes
   bool thin = 5;    // thin provisioning
   ShareProtocol share = 6;  // protocol to expose the replica over
@@ -35,12 +35,11 @@ message DestroyReplicaRequest {
 message Replica {
   string name = 1;  // name of the replica
   string uuid = 2;  // uuid of the replica
-  string pool = 3;  // name of the pool
-  string pooluuid = 4; // uuid of the pool
-  bool thin = 5;    // thin provisioning
-  uint64 size = 6;  // size of the replica in bytes
-  ShareProtocol share = 7;  // protocol used for exposing the replica
-  string uri = 8;   // uri under which the replica is accessible by nexus
+  string pooluuid = 3; // uuid of the pool on which replica is present
+  bool thin = 4;    // thin provisioning
+  uint64 size = 5;  // size of the replica in bytes
+  ShareProtocol share = 6;  // protocol used for exposing the replica
+  string uri = 7;   // uri under which the replica is accessible by nexus
 }
 
 // List of replicas and their properties.
@@ -52,7 +51,6 @@ message ListReplicasResponse {
 message ShareReplicaRequest {
   string uuid = 1;  // uuid of the replica
   // protocol used for exposing the replica
-  // Use "NONE" to disable remote access.
   ShareProtocol share = 2;
 }
 
