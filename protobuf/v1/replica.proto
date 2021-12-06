@@ -13,17 +13,17 @@ service ReplicaRpc {
   rpc CreateReplica (CreateReplicaRequest) returns (Replica) {}
   rpc DestroyReplica (DestroyReplicaRequest) returns (google.protobuf.Empty) {}
   rpc ListReplicas (ListReplicasOptions) returns (ListReplicasResponse) {}
-  rpc ShareReplica (ShareReplicaRequest) returns (ShareReplicaResponse) {}
+  rpc ShareReplica (ShareReplicaRequest) returns (Replica) {}
+  rpc UnshareReplica (UnshareReplicaRequest) returns (Replica) {}
 }
 
 message CreateReplicaRequest {
   string name = 1;  // name of the replica
   string uuid = 2;  // uuid of the replica
-  string pool = 3;  // name of the pool
-  PoolType pooltype = 4; // type of the pool
-  uint64 size = 5;  // size of the replica in bytes
-  bool thin = 6;    // thin provisioning
-  ShareProtocol share = 7;  // protocol to expose the replica over
+  string pool = 3;  // name of the pool on which replica needs to be created.
+  uint64 size = 4;  // size of the replica in bytes
+  bool thin = 5;    // thin provisioning
+  ShareProtocol share = 6;  // protocol to expose the replica over
 }
 
 // Destroy replica arguments.
@@ -36,11 +36,11 @@ message Replica {
   string name = 1;  // name of the replica
   string uuid = 2;  // uuid of the replica
   string pool = 3;  // name of the pool
-  PoolType pooltype = 4; // type of the pool
+  string pooluuid = 4; // uuid of the pool
   bool thin = 5;    // thin provisioning
   uint64 size = 6;  // size of the replica in bytes
   ShareProtocol share = 7;  // protocol used for exposing the replica
-  string uri = 8;   // uri usable by nexus to access it
+  string uri = 8;   // uri under which the replica is accessible by nexus
 }
 
 // List of replicas and their properties.
@@ -56,9 +56,9 @@ message ShareReplicaRequest {
   ShareProtocol share = 2;
 }
 
-// Share replica response.
-message ShareReplicaResponse {
-  string uri = 1;   // uri under which the replica is accessible by nexus
+// Unshare replica request
+message UnshareReplicaRequest {
+  string uuid = 1;  // uuid of the replica
 }
 
 message ListReplicasOptions {
