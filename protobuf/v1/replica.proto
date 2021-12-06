@@ -14,6 +14,7 @@ service ReplicaRpc {
   rpc DestroyReplica (DestroyReplicaRequest) returns (google.protobuf.Empty) {}
   rpc ListReplicas (ListReplicasOptions) returns (ListReplicasResponse) {}
   rpc ShareReplica (ShareReplicaRequest) returns (Replica) {}
+  rpc UnshareReplica (UnshareReplicaRequest) returns (Replica) {}
 }
 
 message CreateReplicaRequest {
@@ -50,8 +51,12 @@ message ListReplicasResponse {
 message ShareReplicaRequest {
   string uuid = 1;  // uuid of the replica
   // protocol used for exposing the replica
-  // Use "NONE" to disable remote access.
   ShareProtocol share = 2;
+}
+
+// Unshare replica request
+message UnshareReplicaRequest {
+  string uuid = 1;  // uuid of the replica
 }
 
 message ListReplicasOptions {
