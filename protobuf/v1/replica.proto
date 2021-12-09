@@ -36,8 +36,8 @@ message Replica {
   string name = 1;  // name of the replica
   string uuid = 2;  // uuid of the replica
   string pooluuid = 3; // uuid of the pool on which replica is present
-  bool thin = 4;    // thin provisioning
-  uint64 size = 5;  // size of the replica in bytes
+  uint64 size = 4;  // size of the replica in bytes
+  bool thin = 5;    // thin provisioning
   ShareProtocol share = 6;  // protocol used for exposing the replica
   string uri = 7;   // uri under which the replica is accessible by nexus
 }
