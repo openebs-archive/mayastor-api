@@ -62,5 +62,4 @@ message UnshareReplicaRequest {
 message ListReplicasOptions {
   google.protobuf.StringValue name = 1;
   google.protobuf.StringValue poolname = 2;
-  PoolTypeValue pooltype = 3;
 }
