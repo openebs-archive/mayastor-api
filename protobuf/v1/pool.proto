@@ -3,7 +3,6 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
-import "common.proto";
 
 package mayastor.v1;
 
@@ -17,6 +16,18 @@ service PoolRpc {
   rpc ExportPool (ExportPoolRequest) returns (google.protobuf.Empty) {}
   rpc ImportPool (ImportPoolRequest) returns (Pool) {}
   rpc ListPools (ListPoolOptions) returns (ListPoolsResponse) {}
+}
+
+// Specifies the type of the pool
+enum PoolType {
+  Lvs = 0;  // pool backed by spdk lvs
+}
+
+// The wrapper for pooltype.
+// It helps in defining optional fields
+// when required.
+message PoolTypeValue {
+  PoolType value = 1;
 }
 
 // Create pool arguments.
