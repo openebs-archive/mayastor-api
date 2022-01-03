@@ -2,36 +2,41 @@ syntax = "proto3";
 
 package mayastor.v1;
 
-import "google/protobuf/struct.proto";
+import "google/protobuf/wrappers.proto";
 import "google/protobuf/empty.proto";
 import "common.proto";
 
 // Service to operate directly on block devices
 service BdevRpc {
   // create a new block device using a uri scheme
-  rpc Create(BdevRequest) returns (BdevResponse) {}
+  rpc Create(CreateBdevRequest) returns (CreateBdevResponse) {}
   // destroys the block device
-  rpc Destroy(BdevRequest) returns (google.protobuf.Empty) {}
+  rpc Destroy(DestroyBdevRequest) returns (google.protobuf.Empty) {}
   // list the block devices
-  rpc List(NullableString) returns (ListBdevResponse) {}
+  rpc List(ListBdevOptions) returns (ListBdevResponse) {}
   // share the block device
   rpc Share(BdevShareRequest) returns (BdevShareResponse) {}
   // unshare the block device
   rpc Unshare(BdevUnshareRequest) returns (google.protobuf.Empty) {}
 }
 
-message NullableString {
-  oneof kind {
-    string value = 1;
-    google.protobuf.NullValue null = 2;
-  }
+message ListBdevOptions {
+  google.protobuf.StringValue name = 1;
 }
 
-message BdevRequest {
+message CreateBdevRequest {
   string uri = 1;
 }
 
-message BdevResponse {
+message CreateBdevResponse {
+  Bdev bdev = 1; 
+}
+
+message DestroyBdevRequest {
+  string uri = 1;
+}
+
+message Bdev {
   // name of the bdev
   string name = 1;
   // the UUID which may or may not persist across restarts
@@ -55,7 +60,7 @@ message BdevResponse {
 }
 
 message ListBdevResponse {
-  repeated BdevResponse bdevs = 1;
+  repeated Bdev bdevs = 1;
 }
 
 message BdevShareRequest {
@@ -66,7 +71,7 @@ message BdevShareRequest {
 }
 
 message BdevShareResponse {
-  string uri = 1;
+  Bdev bdev = 1;
 }
 
 message BdevUnshareRequest {
