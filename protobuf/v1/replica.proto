@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "common.proto";
+
+package mayastor.v1;
+
+service ReplicaRpc {
+  // Replica related methods.
+  //
+  // Replica allocates space from storage pool.
+  rpc CreateReplica (CreateReplicaRequest) returns (Replica) {}
+  rpc DestroyReplica (DestroyReplicaRequest) returns (google.protobuf.Empty) {}
+  rpc ListReplicas (ListReplicaOptions) returns (ListReplicasResponse) {}
+  rpc ShareReplica (ShareReplicaRequest) returns (Replica) {}
+  rpc UnshareReplica (UnshareReplicaRequest) returns (Replica) {}
+}
+
+// Replica properties
+message Replica {
+  string name = 1;  // name of the replica
+  string uuid = 2;  // uuid of the replica
+  string pooluuid = 3; // uuid of the pool on which replica is present
+  uint64 size = 4;  // size of the replica in bytes
+  bool thin = 5;    // thin provisioning
+  ShareProtocol share = 6;  // protocol used for exposing the replica
+  string uri = 7;   // uri under which the replica is accessible by nexus
+}
+
+message CreateReplicaRequest {
+  string name = 1;  // name of the replica
+  string uuid = 2;  // uuid of the replica
+  string pooluuid = 3;  // uuid of the pool on which replica needs to be created.
+  uint64 size = 4;  // size of the replica in bytes
+  bool thin = 5;    // thin provisioning
+  ShareProtocol share = 6;  // protocol to expose the replica over
+}
+
+// Destroy replica arguments.
+message DestroyReplicaRequest {
+  string uuid = 1;  // uuid of the replica
+}
+
+// Share replica request.
+message ShareReplicaRequest {
+  string uuid = 1;  // uuid of the replica
+  // protocol used for exposing the replica
+  ShareProtocol share = 2;
+}
+
+// Unshare replica request
+message UnshareReplicaRequest {
+  string uuid = 1;  // uuid of the replica
+}
+
+// List of replicas and their properties.
+message ListReplicasResponse {
+  repeated Replica replicas = 1;  // list of the replicas
+}
+
+message ListReplicaOptions {
+  google.protobuf.StringValue name = 1; // list the replica with the name if provided
+  google.protobuf.StringValue poolname = 2; // list the replicas on the provided pool
+}
