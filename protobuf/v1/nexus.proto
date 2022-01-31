@@ -1,0 +1,167 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "common.proto";
+
+package mayastor.v1;
+
+service NexusRpc {
+  // Nexus related methods.
+  //
+  // Nexus is a logical frontend representing a data volume taking care of
+  // replication and rebuild in the background.
+
+  rpc CreateNexus (CreateNexusRequest) returns (CreateNexusResponse) {}
+  rpc DestroyNexus (DestroyNexusRequest) returns (google.protobuf.Empty) {}
+  rpc ListNexus (ListNexusOptions) returns (ListNexusResponse) {}
+  rpc AddChildNexus (AddChildNexusRequest) returns (AddChildNexusResponse) {}
+  rpc RemoveChildNexus (RemoveChildNexusRequest) returns (RemoveChildNexusResponse) {}
+  rpc FaultNexusChild (FaultNexusChildRequest) returns (google.protobuf.Empty) {}
+
+  // This method is called by control plane to construct a block device
+  // (/dev/...) that will be used to connect the nexus to the OS.
+  rpc PublishNexus (PublishNexusRequest) returns (PublishNexusResponse) {}
+  rpc UnpublishNexus (UnpublishNexusRequest) returns (UnpublishNexusResponse) {}
+
+  // NVMe ANA state
+  rpc GetNvmeAnaState (GetNvmeAnaStateRequest) returns (GetNvmeAnaStateResponse) {}
+  rpc SetNvmeAnaState (SetNvmeAnaStateRequest) returns (SetNvmeAnaStateResponse) {}
+
+}
+
+// Create nexus arguments.
+message CreateNexusRequest {
+  string name = 1; // name of the nexus
+  string uuid = 2; // UUID of the nexus
+  uint64 size = 3; // size of the device in bytes
+  uint32 minCntlId = 4;  // minimum NVMe controller ID
+  uint32 maxCntlId = 5;  // maximum NVMe controller ID
+  uint64 resvKey = 6;    // NVMe reservation key for children
+  uint64 preemptKey = 7; // NVMe preempt key for children
+  repeated string children = 8; // uris to the targets we connect to
+}
+
+// State of the nexus child.
+enum ChildState {
+  CHILD_UNKNOWN = 0;
+  CHILD_ONLINE = 1;   // healthy and contains the latest bits
+  CHILD_DEGRADED = 2; // rebuild is in progress (or other recoverable error)
+  CHILD_FAULTED = 3;  // unrecoverable error (control plane must act)
+}
+
+// represents a child device part of a nexus
+message Child {
+  string uri = 1;   // uri of the child device
+  ChildState state = 2; // state of the child
+  int32 rebuild_progress = 3;
+}
+
+// State of the nexus (terminology inspired by ZFS).
+enum NexusState {
+  NEXUS_UNKNOWN = 0;
+  NEXUS_ONLINE = 1;    // healthy and working
+  NEXUS_DEGRADED = 2;  // not healthy but is able to serve IO (i.e. rebuild is in progress)
+  NEXUS_FAULTED = 3;   // broken and unable to serve IO
+}
+
+enum NvmeAnaState {
+  NVME_ANA_INVALID_STATE = 0;           // invalid, do not use
+  NVME_ANA_OPTIMIZED_STATE = 0x1;
+  NVME_ANA_NON_OPTIMIZED_STATE = 0x2;
+  NVME_ANA_INACCESSIBLE_STATE = 0x3;
+  NVME_ANA_PERSISTENT_LOSS_STATE = 0x4; // not yet supported
+  NVME_ANA_CHANGE_STATE = 0xF;          // not yet supported
+}
+
+// represents a nexus device
+message Nexus {
+  string name = 1;             // name of the nexus
+  string uuid = 2;             // UUID of the bdev
+  uint64 size = 3;             // size of the volume in bytes
+  NexusState state = 4;        // current state of the nexus
+  repeated Child children = 5; // array of children
+  // URI of the device for the volume (missing if not published).
+  // Missing property and empty string are treated the same.
+  string device_uri = 6;
+  uint32 rebuilds = 7;         // total number of rebuild tasks
+  NvmeAnaState ana_state = 8;  // Nexus ANA state.
+}
+
+message CreateNexusResponse {
+  Nexus nexus = 1;
+}
+
+message AddChildNexusResponse {
+  Nexus nexus = 1;
+}
+
+message RemoveChildNexusResponse {
+  Nexus nexus = 1;
+}
+
+message UnpublishNexusResponse {
+  Nexus nexus = 1;
+}
+
+message SetNvmeAnaStateResponse {
+  Nexus nexus = 1;
+}
+
+message ListNexusResponse {
+  repeated Nexus nexus_list = 1;
+}
+
+message DestroyNexusRequest   {
+  string uuid = 1;    // uuid of the nexus
+}
+
+message AddChildNexusRequest {
+  string uuid = 1;    // uuid of the nexus
+  string uri = 2;     // URI of the child device to be added
+  bool norebuild = 3;   // auto start rebuilding
+}
+
+message RemoveChildNexusRequest {
+  string uuid = 1;    // uuid of the nexus
+  string uri = 2;     // URI of the child device to be removed
+}
+
+message FaultNexusChildRequest {
+  string uuid = 1;    // uuid of the nexus
+  string uri = 2;     // URI of the child device to be faulted
+}
+
+// this message will be subject to change as we will add support for remote
+// storage protocols.
+message PublishNexusRequest {
+  string uuid = 1; // uuid of the nexus which to create device for
+  string key = 2; // encryption key
+  ShareProtocol share = 3;  // protocol used for the front end.
+}
+
+message PublishNexusResponse {
+  Nexus nexus = 1;
+}
+
+message UnpublishNexusRequest {
+  string uuid = 1;   // uuid of the nexus which to destroy
+}
+
+message ListNexusOptions {
+  // list the nexus matching the name if provided
+  google.protobuf.StringValue name = 1;
+}
+
+message GetNvmeAnaStateRequest {
+  string uuid = 1;   // uuid of the nexus
+}
+
+message GetNvmeAnaStateResponse {
+  NvmeAnaState ana_state = 1;
+}
+
+message SetNvmeAnaStateRequest {
+  string uuid = 1;   // uuid of the nexus
+  NvmeAnaState ana_state = 2;
+}
