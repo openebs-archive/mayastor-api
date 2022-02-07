@@ -29,13 +29,13 @@ service NexusRpc {
   rpc SetNvmeAnaState (SetNvmeAnaStateRequest) returns (SetNvmeAnaStateResponse) {}
 
   // Nexus child operations
-  rpc ChildOperation(ChildOperationRequest) returns (google.protobuf.Empty) {}
+  rpc ChildOperation(ChildOperationRequest) returns (ChildOperationResponse) {}
 
   // Rebuild operations
-  rpc StartRebuild (StartRebuildRequest) returns (google.protobuf.Empty) {}
-  rpc StopRebuild (StopRebuildRequest) returns (google.protobuf.Empty) {}
-  rpc PauseRebuild (PauseRebuildRequest) returns (google.protobuf.Empty) {}
-  rpc ResumeRebuild (ResumeRebuildRequest) returns (google.protobuf.Empty) {}
+  rpc StartRebuild (StartRebuildRequest) returns (StartRebuildResponse) {}
+  rpc StopRebuild (StopRebuildRequest) returns (StopRebuildResponse) {}
+  rpc PauseRebuild (PauseRebuildRequest) returns (PauseRebuildResponse) {}
+  rpc ResumeRebuild (ResumeRebuildRequest) returns (ResumeRebuildResponse) {}
   rpc GetRebuildState (RebuildStateRequest) returns (RebuildStateResponse) {}
   rpc GetRebuildStats (RebuildStatsRequest) returns (RebuildStatsResponse) {}
   rpc GetRebuildProgress (RebuildProgressRequest) returns (RebuildProgressResponse) {}
@@ -184,13 +184,17 @@ enum ChildAction {
 }
 
 message ChildOperationRequest {
-  string uuid = 1; // uuid of the nexus
+  string nexus_uuid = 1; // uuid of the nexus
   string uri = 2; // uri of the child to act upon
   ChildAction action = 3;
 }
 
+message ChildOperationResponse {
+  Nexus nexus = 1;
+}
+
 message RebuildStateRequest {
-  string uuid = 1;  // uuid of the nexus
+  string nexus_uuid = 1;  // uuid of the nexus
   string uri = 2;   // uri of the destination child
 }
 
@@ -199,7 +203,7 @@ message RebuildStateResponse {
 }
 
 message RebuildStatsRequest {
-  string uuid = 1;  // uuid of the nexus
+  string nexus_uuid = 1;  // uuid of the nexus
   string uri = 2;   // uri of the destination child
 }
 
@@ -214,27 +218,43 @@ message RebuildStatsResponse {
 }
 
 message StartRebuildRequest {
-  string uuid = 1;  // uuid of the nexus
+  string nexus_uuid = 1;  // uuid of the nexus
   string uri = 2;   // uri of the child to be rebuilt
 }
 
+message StartRebuildResponse {
+  Nexus nexus = 1;
+}
+
 message StopRebuildRequest {
-  string uuid = 1;  // uuid of the nexus
+  string nexus_uuid = 1;  // uuid of the nexus
   string uri = 2;   // uri of the destination child
+}
+
+message StopRebuildResponse {
+  Nexus nexus = 1;
 }
 
 message PauseRebuildRequest {
-  string uuid = 1;  // uuid of the nexus
+  string nexus_uuid = 1;  // uuid of the nexus
   string uri = 2;   // uri of the destination child
+}
+
+message PauseRebuildResponse {
+  Nexus nexus = 1;
 }
 
 message ResumeRebuildRequest {
-  string uuid = 1;  // uuid of the nexus
+  string nexus_uuid = 1;  // uuid of the nexus
   string uri = 2;   // uri of the destination child
 }
 
+message ResumeRebuildResponse {
+  Nexus nexus = 1;
+}
+
 message RebuildProgressRequest {
-  string uuid = 1;  // uuid of the nexus
+  string nexus_uuid = 1;  // uuid of the nexus
   string uri = 2;   // uri of the destination child
 }
 
