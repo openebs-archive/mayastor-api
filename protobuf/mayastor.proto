@@ -247,6 +247,7 @@ message CreateNexusV2Request {
   uint64 resvKey = 6;    // NVMe reservation key for children
   uint64 preemptKey = 7; // NVMe preempt key for children
   repeated string children = 8; // uris to the targets we connect to
+  string nexusInfoKey = 9; // the key to use to persist the nexus info structure
 }
 
 // State of the nexus child.
