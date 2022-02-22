@@ -38,8 +38,6 @@ service NexusRpc {
   rpc ResumeRebuild (ResumeRebuildRequest) returns (ResumeRebuildResponse) {}
   rpc GetRebuildState (RebuildStateRequest) returns (RebuildStateResponse) {}
   rpc GetRebuildStats (RebuildStatsRequest) returns (RebuildStatsResponse) {}
-  rpc GetRebuildProgress (RebuildProgressRequest) returns (RebuildProgressResponse) {}
-
 }
 
 // Create nexus arguments.
@@ -251,13 +249,4 @@ message ResumeRebuildRequest {
 
 message ResumeRebuildResponse {
   Nexus nexus = 1;
-}
-
-message RebuildProgressRequest {
-  string nexus_uuid = 1;  // uuid of the nexus
-  string uri = 2;   // uri of the destination child
-}
-
-message RebuildProgressResponse {
-  uint32 progress = 1;  // progress percentage
 }
