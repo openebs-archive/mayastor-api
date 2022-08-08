@@ -3,7 +3,7 @@ syntax = "proto3";
 package mayastor.v1;
 
 import "google/protobuf/empty.proto";
-
+import "registration.proto";
 
 service HostRpc {
 
@@ -27,6 +27,7 @@ message MayastorFeatures {
 message MayastorInfoResponse {
   string version = 1;
   MayastorFeatures supportedFeatures = 2;
+  RegisterRequest registration_info = 3;
 }
 
 message BlockDevice {
