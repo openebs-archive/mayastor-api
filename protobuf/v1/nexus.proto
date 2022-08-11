@@ -60,17 +60,34 @@ message CreateNexusRequest {
 
 // State of the nexus child.
 enum ChildState {
-  CHILD_UNKNOWN = 0;
-  CHILD_ONLINE = 1;   // healthy and contains the latest bits
-  CHILD_DEGRADED = 2; // rebuild is in progress (or other recoverable error)
-  CHILD_FAULTED = 3;  // unrecoverable error (control plane must act)
+  CHILD_STATE_UNKNOWN = 0;  // no particular reason for the child to be in this state; this is typically the init state
+  CHILD_STATE_ONLINE = 1;   // healthy and contains the latest bits
+  CHILD_STATE_DEGRADED = 2; // rebuild is in progress (or other recoverable error)
+  CHILD_STATE_FAULTED = 3;  // unrecoverable error (control plane must act)
+}
+
+// State of the nexus child.
+enum ChildStateReason {
+  CHILD_STATE_REASON_NONE = 0;            // reason for CHILD_REASON_NONE, CHILD_UNKNOWN
+  CHILD_STATE_REASON_INIT = 1;            // child is being initialized
+  CHILD_STATE_REASON_CLOSED = 2;          // child is being destroyed or has been closed
+  CHILD_STATE_REASON_CANNOT_OPEN = 3;     // failed to open child (e.g. cannot access device)
+  CHILD_STATE_REASON_CONFIG_INVALID = 4;  // invalid child device configuration (e.g. mismatching size)
+  CHILD_STATE_REASON_REBUILD_FAILED = 5;  // rebuild operation failed for this child
+  CHILD_STATE_REASON_IO_FAILURE = 6;      // child faulted because of other I/O errors
+  CHILD_STATE_REASON_BY_CLIENT = 7;       // child has been faulted by a client
+  CHILD_STATE_REASON_OUT_OF_SYNC = 8;     // child is being rebuilt
+  CHILD_STATE_REASON_NO_SPACE = 9;        // child faulted because I/O operation failed with ENOSPC
+  CHILD_STATE_REASON_TIMED_OUT = 10;      // child faulted because I/O operation failed with timeout
+  CHILD_STATE_REASON_ADMIN_FAILED = 11;   // child faulted of an admin command failure
 }
 
 // represents a child device part of a nexus
 message Child {
-  string uri = 1;   // uri of the child device
-  ChildState state = 2; // state of the child
-  int32 rebuild_progress = 3;
+  string uri = 1;                     // uri of the child device
+  ChildState state = 2;               // state of the child
+  ChildStateReason state_reason = 3;  // child state reason
+  int32 rebuild_progress = 4;         // rebuild progress
 }
 
 // State of the nexus (terminology inspired by ZFS).
