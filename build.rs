@@ -1,32 +1,16 @@
-use std::{
-    env,
-    path::{Path, PathBuf},
-    process::Command,
-};
+use std::{env, path::PathBuf};
 
 extern crate tonic_build;
 
 fn main() {
-    if !Path::new("mayastor-api/.git").exists() {
-        let output = Command::new("git")
-            .args(&["submodule", "update", "--init"])
-            .output()
-            .expect("failed to execute git command");
-        dbg!(&output);
-        if !output.status.success() {
-            panic!("submodule checkout failed");
-        }
-    }
-    let reflection_descriptor = PathBuf::from(env::var("OUT_DIR").unwrap())
-        .join("mayastor_reflection.bin");
+    let reflection_descriptor =
+        PathBuf::from(env::var("OUT_DIR").unwrap()).join("mayastor_reflection.bin");
     tonic_build::configure()
         .file_descriptor_set_path(&reflection_descriptor)
         .build_server(true)
         .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
         .compile(&["protobuf/mayastor.proto"], &["protobuf"])
-        .unwrap_or_else(|e| {
-            panic!("mayastor protobuf compilation failed: {}", e)
-        });
+        .unwrap_or_else(|e| panic!("mayastor protobuf compilation failed: {}", e));
 
     tonic_build::configure()
         .file_descriptor_set_path(&reflection_descriptor)
@@ -44,7 +28,5 @@ fn main() {
             ],
             &["protobuf/v1"],
         )
-        .unwrap_or_else(|e| {
-            panic!("mayastor v1 protobuf compilation failed: {}", e)
-        });
+        .unwrap_or_else(|e| panic!("mayastor v1 protobuf compilation failed: {}", e));
 }
