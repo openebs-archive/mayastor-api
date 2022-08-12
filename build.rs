@@ -7,16 +7,6 @@ use std::{
 extern crate tonic_build;
 
 fn main() {
-    if !Path::new("mayastor-api/.git").exists() {
-        let output = Command::new("git")
-            .args(&["submodule", "update", "--init"])
-            .output()
-            .expect("failed to execute git command");
-        dbg!(&output);
-        if !output.status.success() {
-            panic!("submodule checkout failed");
-        }
-    }
     let reflection_descriptor = PathBuf::from(env::var("OUT_DIR").unwrap())
         .join("mayastor_reflection.bin");
     tonic_build::configure()
