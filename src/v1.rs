@@ -2,6 +2,7 @@
 
 // dont export the raw pb generated code
 mod pb {
+    #![allow(unknown_lints)]
     #![allow(clippy::derive_partial_eq_without_eq)]
     include!(concat!(env!("OUT_DIR"), "/mayastor.v1.rs"));
 }
@@ -61,9 +62,9 @@ pub mod nexus {
     pub use super::pb::{
         nexus_rpc_client::NexusRpcClient,
         nexus_rpc_server::{NexusRpc, NexusRpcServer},
-        AddChildNexusRequest, AddChildNexusResponse, Child, ChildOperationRequest,
-        ChildOperationResponse, ChildState, CreateNexusRequest, CreateNexusResponse,
-        DestroyNexusRequest, FaultNexusChildRequest, GetNvmeAnaStateRequest,
+        AddChildNexusRequest, AddChildNexusResponse, Child, ChildAction, ChildOperationRequest,
+        ChildOperationResponse, ChildState, ChildStateReason, CreateNexusRequest,
+        CreateNexusResponse, DestroyNexusRequest, FaultNexusChildRequest, GetNvmeAnaStateRequest,
         GetNvmeAnaStateResponse, InjectNexusFaultRequest, InjectedFault,
         ListInjectedNexusFaultsReply, ListInjectedNexusFaultsRequest, ListNexusOptions,
         ListNexusResponse, Nexus, NexusState, NvmeAnaState, PauseRebuildRequest,
