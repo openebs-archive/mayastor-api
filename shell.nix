@@ -9,6 +9,7 @@ in
 with pkgs;
 pkgs.mkShell {
   buildInputs = [
+    cacert
     cargo-udeps
     clang
     commitlint
