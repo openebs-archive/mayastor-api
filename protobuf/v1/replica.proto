@@ -26,6 +26,7 @@ message Replica {
   bool thin = 5;    // thin provisioning
   ShareProtocol share = 6;  // protocol used for exposing the replica
   string uri = 7;   // uri under which the replica is accessible by nexus
+  string poolname = 8; // name of the pool on which replica is present
 }
 
 message CreateReplicaRequest {
