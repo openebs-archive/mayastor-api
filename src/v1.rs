@@ -40,7 +40,7 @@ pub mod replica {
         replica_rpc_client::ReplicaRpcClient,
         replica_rpc_server::{ReplicaRpc, ReplicaRpcServer},
         CreateReplicaRequest, DestroyReplicaRequest, ListReplicaOptions, ListReplicasResponse,
-        Replica, ShareReplicaRequest, UnshareReplicaRequest,
+        Replica, ReplicaSpaceUsage, ShareReplicaRequest, UnshareReplicaRequest,
     };
 }
 pub mod registration {

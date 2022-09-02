@@ -179,6 +179,15 @@ message Replica {
   string uri = 6;   // uri usable by nexus to access it
 }
 
+// Replica space usage
+message ReplicaSpaceUsage {
+  uint64 capacity_bytes = 1; // replica capacity in bytes.
+  uint64 allocated_bytes = 2; // amount of actually allocated disk space for this replica in bytes
+  uint64 cluster_size = 3; // cluster size in bytes
+  uint64 num_clusters = 4; // total number of clusters
+  uint64 num_allocated_clusters = 5; // number of actually used clusters
+}
+
 // Replica2 properties
 message ReplicaV2 {
   string name = 1;  // name of the replica
@@ -188,6 +197,7 @@ message ReplicaV2 {
   uint64 size = 5;  // size of the replica in bytes
   ShareProtocolReplica share = 6;  // protocol used for exposing the replica
   string uri = 7;   // uri usable by nexus to access it
+  ReplicaSpaceUsage usage = 8; // replica space usage
 }
 
 // List of replicas and their properties.
