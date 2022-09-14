@@ -49,6 +49,7 @@ service Mayastor {
   rpc AddChildNexus (AddChildNexusRequest) returns (Child) {}
   rpc RemoveChildNexus (RemoveChildNexusRequest) returns (Null) {}
   rpc FaultNexusChild (FaultNexusChildRequest) returns (Null) {}
+  rpc ShutdownNexus (ShutdownNexusRequest) returns (Null) {}
 
   // Nexus-level fault injection and other development methods
   rpc InjectNexusFault (InjectNexusFaultRequest) returns (Null) {}
@@ -293,6 +294,7 @@ enum NexusState {
   NEXUS_ONLINE = 1;    // healthy and working
   NEXUS_DEGRADED = 2;  // not healthy but is able to serve IO (i.e. rebuild is in progress)
   NEXUS_FAULTED = 3;   // broken and unable to serve IO
+  NEXUS_SHUTDOWN = 4;  // shutdown: not able to serve I/O
 }
 
 // represents a nexus device
@@ -330,6 +332,10 @@ message ListNexusV2Reply {
 }
 
 message DestroyNexusRequest   {
+  string uuid = 1;    // uuid of the nexus
+}
+
+message ShutdownNexusRequest   {
   string uuid = 1;    // uuid of the nexus
 }
 

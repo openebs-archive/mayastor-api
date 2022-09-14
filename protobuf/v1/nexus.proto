@@ -18,6 +18,7 @@ service NexusRpc {
   rpc AddChildNexus (AddChildNexusRequest) returns (AddChildNexusResponse) {}
   rpc RemoveChildNexus (RemoveChildNexusRequest) returns (RemoveChildNexusResponse) {}
   rpc FaultNexusChild (FaultNexusChildRequest) returns (google.protobuf.Empty) {}
+  rpc ShutdownNexus (ShutdownNexusRequest) returns (google.protobuf.Empty) {}
 
   // Nexus-level fault injection and other development methods
   rpc InjectNexusFault (InjectNexusFaultRequest) returns (google.protobuf.Empty) {}
@@ -96,6 +97,7 @@ enum NexusState {
   NEXUS_ONLINE = 1;    // healthy and working
   NEXUS_DEGRADED = 2;  // not healthy but is able to serve IO (i.e. rebuild is in progress)
   NEXUS_FAULTED = 3;   // broken and unable to serve IO
+  NEXUS_SHUTDOWN = 4;  // shutdown: not able to serve I/O
 }
 
 enum NvmeAnaState {
@@ -146,6 +148,10 @@ message ListNexusResponse {
 }
 
 message DestroyNexusRequest   {
+  string uuid = 1;    // uuid of the nexus
+}
+
+message ShutdownNexusRequest   {
   string uuid = 1;    // uuid of the nexus
 }
 
