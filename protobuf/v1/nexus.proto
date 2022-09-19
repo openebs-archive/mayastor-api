@@ -108,6 +108,7 @@ message Child {
   ChildState state = 2;               // state of the child
   ChildStateReason state_reason = 3;  // child state reason
   int32 rebuild_progress = 4;         // rebuild progress
+  optional string device_name = 5;    // child device name
 }
 
 // State of the nexus (terminology inspired by ZFS).
