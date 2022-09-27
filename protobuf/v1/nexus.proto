@@ -57,6 +57,25 @@ message CreateNexusRequest {
   uint64 preemptKey = 7; // NVMe preempt key for children
   repeated string children = 8; // uris to the targets we connect to
   string nexusInfoKey = 9; // the key to use to persist the nexus info structure
+  optional NvmeReservation resvType = 10; // the reservation type to use
+  NexusNvmePreemption preemptPolicy = 11; // the preemption policy to use
+}
+
+/// Nexus NVMe preemption policy.
+enum NexusNvmePreemption {
+  ArgKey = 0; // preempt using the preemptKey argument, if any
+  Holder = 1; // preempts the current reservation holder, if any
+}
+
+/// NVMe reservation types.
+enum NvmeReservation {
+  Reserved = 0;
+  WriteExclusive = 1;
+  ExclusiveAccess = 2;
+  WriteExclusiveRegsOnly = 3;
+  ExclusiveAccessRegsOnly = 4;
+  WriteExclusiveAllRegs = 5;
+  ExclusiveAccessAllRegs = 6;
 }
 
 // State of the nexus child.
