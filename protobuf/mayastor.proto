@@ -270,7 +270,7 @@ message CreateNexusV2Request {
 
 /// Nexus NVMe preemption policy.
 enum NexusNvmePreemption {
-  ArgKey = 0; // preempt using the preemptKey argument, if any
+  ArgKey = 0; // preempts using the preemptKey argument, if any
   Holder = 1; // preempts the current reservation holder, if any
 }
 
