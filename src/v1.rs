@@ -72,7 +72,7 @@ pub mod nexus {
         RebuildStateResponse, RebuildStatsRequest, RebuildStatsResponse, RemoveChildNexusRequest,
         RemoveChildNexusResponse, RemoveInjectedNexusFaultRequest, ResumeRebuildRequest,
         ResumeRebuildResponse, SetNvmeAnaStateRequest, SetNvmeAnaStateResponse,
-        StartRebuildRequest, StartRebuildResponse, StopRebuildRequest, StopRebuildResponse,
-        UnpublishNexusRequest, UnpublishNexusResponse,
+        ShutdownNexusRequest, StartRebuildRequest, StartRebuildResponse, StopRebuildRequest,
+        StopRebuildResponse, UnpublishNexusRequest, UnpublishNexusResponse,
     };
 }
