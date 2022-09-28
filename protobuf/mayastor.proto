@@ -301,10 +301,11 @@ message Child {
 // State of the nexus (terminology inspired by ZFS).
 enum NexusState {
   NEXUS_UNKNOWN = 0;
-  NEXUS_ONLINE = 1;    // healthy and working
-  NEXUS_DEGRADED = 2;  // not healthy but is able to serve IO (i.e. rebuild is in progress)
-  NEXUS_FAULTED = 3;   // broken and unable to serve IO
-  NEXUS_SHUTDOWN = 4;  // shutdown: not able to serve I/O
+  NEXUS_ONLINE = 1;        // healthy and working
+  NEXUS_DEGRADED = 2;      // not healthy but is able to serve IO (i.e. rebuild is in progress)
+  NEXUS_FAULTED = 3;       // broken and unable to serve IO
+  NEXUS_SHUTTING_DOWN = 4; // shutdown in progress: not able to serve I/O
+  NEXUS_SHUTDOWN = 5;      // shutdown complete: not able to serve I/O
 }
 
 // represents a nexus device
