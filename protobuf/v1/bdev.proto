@@ -29,7 +29,7 @@ message CreateBdevRequest {
 }
 
 message CreateBdevResponse {
-  Bdev bdev = 1; 
+  Bdev bdev = 1;
 }
 
 message DestroyBdevRequest {
@@ -68,6 +68,7 @@ message BdevShareRequest {
   string name = 1;
   // the protocol to use
   ShareProtocol protocol = 2;
+  repeated string allowed_hosts = 3; // host (nqn's) which are allowed to connect to the target.
 }
 
 message BdevShareResponse {

@@ -220,6 +220,7 @@ message PublishNexusRequest {
   string uuid = 1; // uuid of the nexus which to create device for
   string key = 2; // encryption key
   ShareProtocol share = 3;  // protocol used for the front end.
+  repeated string allowed_hosts = 4; // host (nqn's) which are allowed to connect to the target.
 }
 
 message PublishNexusResponse {

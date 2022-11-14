@@ -238,6 +238,7 @@ message ShareReplicaRequest {
   string uuid = 1;  // uuid of the replica
   ShareProtocolReplica share = 2;  // protocol used for exposing the replica
   // Use "NONE" to disable remote access.
+  repeated string allowed_hosts = 3; // host (nqn's) which are allowed to connect to the target.
 }
 
 // Share replica response.
@@ -414,6 +415,7 @@ message PublishNexusRequest {
   string uuid = 1; // uuid of the nexus which to create device for
   string key = 2; // encryption key
   ShareProtocolNexus share = 3;  // protocol used for the front end.
+  repeated string allowed_hosts = 4; // host (nqn's) which are allowed to connect to the target.
 }
 
 message PublishNexusReply {
@@ -595,6 +597,7 @@ service BdevRpc {
 message BdevShareRequest {
   string name = 1;
   string proto = 2;
+  repeated string allowed_hosts = 3; // host (nqn's) which are allowed to connect to the target.
 }
 
 message BdevShareReply {
