@@ -58,6 +58,7 @@ message ShareReplicaRequest {
   string uuid = 1;  // uuid of the replica
   // protocol used for exposing the replica
   ShareProtocol share = 2;
+  repeated string allowed_hosts = 3; // host (nqn's) which are allowed to connect to the target.
 }
 
 // Unshare replica request
