@@ -154,6 +154,7 @@ message CreateReplicaRequest {
   uint64 size = 3;  // size of the replica in bytes
   bool thin = 4;    // thin provisioning
   ShareProtocolReplica share = 5;  // protocol to expose the replica over
+  repeated string allowed_hosts = 6; // host (nqn's) which are allowed to connect to the target.
 }
 
 message CreateReplicaRequestV2 {
@@ -163,6 +164,7 @@ message CreateReplicaRequestV2 {
   uint64 size = 4;  // size of the replica in bytes
   bool thin = 5;    // thin provisioning
   ShareProtocolReplica share = 6;  // protocol to expose the replica over
+  repeated string allowed_hosts = 7; // host (nqn's) which are allowed to connect to the target.
 }
 
 // Destroy replica arguments.
