@@ -180,6 +180,7 @@ message Replica {
   uint64 size = 4;  // size of the replica in bytes
   ShareProtocolReplica share = 5;  // protocol used for exposing the replica
   string uri = 6;   // uri usable by nexus to access it
+  repeated string allowed_hosts = 7; // host (nqn's) which are allowed to connect to the target
 }
 
 // Replica space usage
@@ -201,6 +202,7 @@ message ReplicaV2 {
   ShareProtocolReplica share = 6;  // protocol used for exposing the replica
   string uri = 7;   // uri usable by nexus to access it
   ReplicaSpaceUsage usage = 8; // replica space usage
+  repeated string allowed_hosts = 9; // host (nqn's) which are allowed to connect to the target
 }
 
 // List of replicas and their properties.
@@ -340,6 +342,7 @@ message Nexus {
   // Missing property and empty string are treated the same.
   string device_uri = 5;
   uint32 rebuilds = 6;         // total number of rebuild tasks
+  repeated string allowed_hosts = 7; // host (nqn's) which are allowed to connect to the target
 }
 
 message ListNexusReply {
