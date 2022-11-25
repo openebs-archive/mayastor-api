@@ -15,6 +15,8 @@ message RegisterRequest {
   google.protobuf.StringValue instance_uuid = 3;
   // list api version supported by the dataplane
   repeated APIVersion api_version = 4;
+  // nvme initiator hostnqn used by this instance
+  google.protobuf.StringValue hostnqn = 5;
 }
 
 // api version supported by the dataplane
