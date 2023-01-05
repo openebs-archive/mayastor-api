@@ -1,10 +1,14 @@
 ///!module to access v1 version of grpc APIs
-
+use std::str::FromStr;
 // dont export the raw pb generated code
 mod pb {
     #![allow(unknown_lints)]
     #![allow(clippy::derive_partial_eq_without_eq)]
     include!(concat!(env!("OUT_DIR"), "/mayastor.v1.rs"));
+}
+
+pub mod common {
+    pub use super::pb::ShareProtocol;
 }
 
 /// v1 version of bdev grpc API
@@ -76,4 +80,21 @@ pub mod nexus {
         StartRebuildResponse, StopRebuildRequest, StopRebuildResponse, UnpublishNexusRequest,
         UnpublishNexusResponse,
     };
+}
+
+#[derive(Debug)]
+pub enum Error {
+    ParseError,
+}
+
+impl FromStr for nexus::NvmeAnaState {
+    type Err = Error;
+    fn from_str(state: &str) -> Result<Self, Self::Err> {
+        match state {
+            "optimized" => Ok(Self::NvmeAnaOptimizedState),
+            "non_optimized" => Ok(Self::NvmeAnaNonOptimizedState),
+            "inaccessible" => Ok(Self::NvmeAnaInaccessibleState),
+            _ => Err(Error::ParseError),
+        }
+    }
 }
