@@ -13,7 +13,7 @@ pub mod bdev {
         bdev_rpc_client::BdevRpcClient,
         bdev_rpc_server::{BdevRpc, BdevRpcServer},
         Bdev, BdevShareRequest, BdevShareResponse, BdevUnshareRequest, CreateBdevRequest,
-        CreateBdevResponse, DestroyBdevRequest, ListBdevOptions, ListBdevResponse,
+        CreateBdevResponse, DestroyBdevRequest, ListBdevOptions, ListBdevResponse, ShareProtocol,
     };
 }
 
