@@ -79,6 +79,7 @@ service Mayastor {
   rpc GetRebuildState (RebuildStateRequest) returns (RebuildStateReply) {}
   rpc GetRebuildStats (RebuildStatsRequest) returns (RebuildStatsReply) {}
   rpc GetRebuildProgress (RebuildProgressRequest) returns (RebuildProgressReply) {}
+  rpc GetRebuildHistory (RebuildHistoryRequest) returns (RebuildHistoryReply) {}
 
   // Snapshot operations
   rpc CreateSnapshot (CreateSnapshotRequest) returns (CreateSnapshotReply) {}
@@ -498,6 +499,26 @@ message RebuildStatsReply {
   uint64 block_size = 5; // size in bytes of each block
   uint64 tasks_total = 6; // total number of concurrent rebuild tasks
   uint64 tasks_active = 7; // number of current active tasks
+}
+
+message RebuildHistoryRequest {
+  string uuid = 1;  // uuid of the nexus
+}
+
+message RebuildHistoryReply {
+  string nexus = 1;                          // Name of the nexus
+  repeated RebuildHistoryRecord records = 2; // List of all rebuild records
+                                             // across all the replicas
+}
+
+message RebuildHistoryRecord {
+  string dst_uri = 1;            // URI of rebuilt replica (destination)
+  string src_uri = 2;            // URI of source replica
+  string state = 3;              // Final state of rebuild job
+  uint64 rebuilt_data_size = 4;  // Size of data rebuilt
+  bool   is_partial = 5;         // Full or Partial rebuild
+  string  started_at = 6;        // Start timestamp(UTC) of rebuild job
+  string  ended_at = 7;          // End timestamp(UTC) of rebuild job
 }
 
 message StartRebuildRequest {
