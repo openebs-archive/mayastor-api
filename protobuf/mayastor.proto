@@ -11,6 +11,8 @@ option java_outer_classname = "MayastorProto";
 
 package mayastor;
 
+import "google/protobuf/timestamp.proto";
+
 // Service for managing storage pools, replicas and nexus's.
 // Replica holds the actual user data. From user application the
 // data are accessed indirectly through nexus object.
@@ -501,12 +503,21 @@ message RebuildStatsReply {
   uint64 tasks_active = 7; // number of current active tasks
 }
 
+enum RebuildJobState {
+  INIT = 0;        // Initialized, not yet rebuilding
+  REBUILDING = 1;  // Running rebuild
+  STOPPED = 2;     // Stopped rebuild
+  PAUSED = 3;      // Paused rebuild
+  FAILED = 4;      // Failed for some reason
+  COMPLETED = 5;   // Rebuild completed succesfully
+}
+
 message RebuildHistoryRequest {
   string uuid = 1;  // uuid of the nexus
 }
 
 message RebuildHistoryReply {
-  string nexus = 1;                          // Name of the nexus
+  string nexus = 1;                          // uuid of the nexus
   repeated RebuildHistoryRecord records = 2; // List of all rebuild records
                                              // across all the replicas
 }
@@ -514,11 +525,11 @@ message RebuildHistoryReply {
 message RebuildHistoryRecord {
   string dst_uri = 1;            // URI of rebuilt replica (destination)
   string src_uri = 2;            // URI of source replica
-  string state = 3;              // Final state of rebuild job
+  RebuildJobState state = 3;     // Final state of rebuild job
   uint64 rebuilt_data_size = 4;  // Size of data rebuilt
   bool   is_partial = 5;         // Full or Partial rebuild
-  string  started_at = 6;        // Start timestamp(UTC) of rebuild job
-  string  ended_at = 7;          // End timestamp(UTC) of rebuild job
+  google.protobuf.Timestamp  started_at = 6;        // Start timestamp(UTC) of rebuild job
+  google.protobuf.Timestamp  ended_at = 7;          // End timestamp(UTC) of rebuild job
 }
 
 message StartRebuildRequest {

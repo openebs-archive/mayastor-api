@@ -9,6 +9,7 @@ fn main() {
         .file_descriptor_set_path(&reflection_descriptor)
         .build_server(true)
         .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
+        .extern_path(".google.protobuf.Timestamp", "::prost_wkt_types::Timestamp")
         .compile(&["protobuf/mayastor.proto"], &["protobuf"])
         .unwrap_or_else(|e| panic!("mayastor protobuf compilation failed: {}", e));
 
@@ -16,6 +17,7 @@ fn main() {
         .file_descriptor_set_path(&reflection_descriptor)
         .build_server(true)
         .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
+        .extern_path(".google.protobuf.Timestamp", "::prost_wkt_types::Timestamp")
         .compile(
             &[
                 "protobuf/v1/bdev.proto",
