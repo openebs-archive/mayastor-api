@@ -523,13 +523,13 @@ message RebuildHistoryReply {
 }
 
 message RebuildHistoryRecord {
-  string dst_uri = 1;            // URI of rebuilt replica (destination)
-  string src_uri = 2;            // URI of source replica
-  RebuildJobState state = 3;     // Final state of rebuild job
-  uint64 rebuilt_data_size = 4;  // Size of data rebuilt
-  bool   is_partial = 5;         // Full or Partial rebuild
-  google.protobuf.Timestamp  started_at = 6;        // Start timestamp(UTC) of rebuild job
-  google.protobuf.Timestamp  ended_at = 7;          // End timestamp(UTC) of rebuild job
+  string dst_uri = 1;                       // URI of rebuilt replica (destination)
+  string src_uri = 2;                       // URI of source replica
+  RebuildJobState state = 3;                // Final state of rebuild job
+  uint64 rebuilt_data_size = 4;             // Size of data rebuilt
+  bool is_partial = 5;                      // Full or Partial rebuild
+  google.protobuf.Timestamp started_at = 6; // Start timestamp(UTC) of rebuild job
+  google.protobuf.Timestamp ended_at = 7;   // End timestamp(UTC) of rebuild job
 }
 
 message StartRebuildRequest {
