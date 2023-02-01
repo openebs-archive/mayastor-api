@@ -73,6 +73,7 @@ pub mod nexus {
         ListInjectedNexusFaultsReply, ListInjectedNexusFaultsRequest, ListNexusOptions,
         ListNexusResponse, Nexus, NexusNvmePreemption, NexusState, NvmeAnaState, NvmeReservation,
         PauseRebuildRequest, PauseRebuildResponse, PublishNexusRequest, PublishNexusResponse,
+        RebuildHistoryRecord, RebuildHistoryRequest, RebuildHistoryResponse, RebuildJobState,
         RebuildStateRequest, RebuildStateResponse, RebuildStatsRequest, RebuildStatsResponse,
         RemoveChildNexusRequest, RemoveChildNexusResponse, RemoveInjectedNexusFaultRequest,
         ResumeRebuildRequest, ResumeRebuildResponse, SetNvmeAnaStateRequest,
