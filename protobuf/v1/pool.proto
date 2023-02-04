@@ -85,4 +85,5 @@ message ListPoolsResponse {
 message ListPoolOptions {
   google.protobuf.StringValue name = 1; // list the pools matching the name if provided
   PoolTypeValue pooltype = 2; // optional pooltype filter
+  google.protobuf.StringValue uuid = 3; // get the pool matching the uuid if provided
 }
