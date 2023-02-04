@@ -76,4 +76,5 @@ message ListReplicasResponse {
 message ListReplicaOptions {
   google.protobuf.StringValue name = 1; // list the replica with the name if provided
   google.protobuf.StringValue poolname = 2; // list the replicas on the provided pool
+  google.protobuf.StringValue uuid = 3; // list the replica with the uuid if provided
 }

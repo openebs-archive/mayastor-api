@@ -237,8 +237,10 @@ message UnpublishNexusRequest {
 }
 
 message ListNexusOptions {
-  // list the nexus matching the name if provided
+  // list the nexuses matching the name if provided
   google.protobuf.StringValue name = 1;
+  // list the nexus matching the uuid if provided
+  google.protobuf.StringValue uuid = 2;
 }
 
 message GetNvmeAnaStateRequest {
