@@ -19,8 +19,8 @@ service NexusRpc {
   rpc ListNexus (ListNexusOptions) returns (ListNexusResponse) {}
   rpc AddChildNexus (AddChildNexusRequest) returns (AddChildNexusResponse) {}
   rpc RemoveChildNexus (RemoveChildNexusRequest) returns (RemoveChildNexusResponse) {}
-  rpc FaultNexusChild (FaultNexusChildRequest) returns (google.protobuf.Empty) {}
-  rpc ShutdownNexus (ShutdownNexusRequest) returns (google.protobuf.Empty) {}
+  rpc FaultNexusChild (FaultNexusChildRequest) returns (FaultNexusChildResponse) {}
+  rpc ShutdownNexus (ShutdownNexusRequest) returns (ShutdownNexusResponse) {}
 
   // Nexus-level fault injection and other development methods
   rpc InjectNexusFault (InjectNexusFaultRequest) returns (google.protobuf.Empty) {}
@@ -180,6 +180,10 @@ message ShutdownNexusRequest   {
   string uuid = 1;    // uuid of the nexus
 }
 
+message ShutdownNexusResponse   {
+  Nexus nexus = 1;
+}
+
 message AddChildNexusRequest {
   string uuid = 1;    // uuid of the nexus
   string uri = 2;     // URI of the child device to be added
@@ -194,6 +198,10 @@ message RemoveChildNexusRequest {
 message FaultNexusChildRequest {
   string uuid = 1;    // uuid of the nexus
   string uri = 2;     // URI of the child device to be faulted
+}
+
+message FaultNexusChildResponse {
+  Nexus nexus = 1;
 }
 
 message InjectNexusFaultRequest {
