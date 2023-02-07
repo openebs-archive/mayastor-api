@@ -68,8 +68,8 @@ pub mod nexus {
         nexus_rpc_server::{NexusRpc, NexusRpcServer},
         AddChildNexusRequest, AddChildNexusResponse, Child, ChildAction, ChildOperationRequest,
         ChildOperationResponse, ChildState, ChildStateReason, CreateNexusRequest,
-        CreateNexusResponse, DestroyNexusRequest, FaultNexusChildRequest, GetNvmeAnaStateRequest,
-        GetNvmeAnaStateResponse, InjectNexusFaultRequest, InjectedFault,
+        CreateNexusResponse, DestroyNexusRequest, FaultNexusChildRequest, FaultNexusChildResponse,
+        GetNvmeAnaStateRequest, GetNvmeAnaStateResponse, InjectNexusFaultRequest, InjectedFault,
         ListInjectedNexusFaultsReply, ListInjectedNexusFaultsRequest, ListNexusOptions,
         ListNexusResponse, Nexus, NexusNvmePreemption, NexusState, NvmeAnaState, NvmeReservation,
         PauseRebuildRequest, PauseRebuildResponse, PublishNexusRequest, PublishNexusResponse,
@@ -77,9 +77,9 @@ pub mod nexus {
         RebuildStateRequest, RebuildStateResponse, RebuildStatsRequest, RebuildStatsResponse,
         RemoveChildNexusRequest, RemoveChildNexusResponse, RemoveInjectedNexusFaultRequest,
         ResumeRebuildRequest, ResumeRebuildResponse, SetNvmeAnaStateRequest,
-        SetNvmeAnaStateResponse, ShareProtocol, ShutdownNexusRequest, StartRebuildRequest,
-        StartRebuildResponse, StopRebuildRequest, StopRebuildResponse, UnpublishNexusRequest,
-        UnpublishNexusResponse,
+        SetNvmeAnaStateResponse, ShareProtocol, ShutdownNexusRequest, ShutdownNexusResponse,
+        StartRebuildRequest, StartRebuildResponse, StopRebuildRequest, StopRebuildResponse,
+        UnpublishNexusRequest, UnpublishNexusResponse,
     };
 }
 
