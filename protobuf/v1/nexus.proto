@@ -296,22 +296,26 @@ message RebuildStatsRequest {
 }
 
 message RebuildStatsResponse {
-  uint64 blocks_total = 1; // total number of blocks to recover
-  uint64 blocks_recovered = 2; // number of blocks recovered
-  uint64 progress = 3; // rebuild progress %
-  uint64 segment_size_blks = 4; // granularity of each recovery copy in blocks
-  uint64 block_size = 5; // size in bytes of each block
-  uint64 tasks_total = 6; // total number of concurrent rebuild tasks
-  uint64 tasks_active = 7; // number of current active tasks
+  uint64 blocks_total = 1;                    // total number of blocks to recover
+  uint64 blocks_recovered = 2;                // number of blocks already recovered
+  uint64 blocks_transferred = 8;              // number of blocks for which the actual data transfer already occurred
+  uint64 blocks_remaining = 9;                // number of blocks remaining to transfer
+  uint64 progress = 3;                        // rebuild progress %
+  uint64 blocks_per_task = 4;                 // granularity of each recovery task in blocks
+  uint64 block_size = 5;                      // size in bytes of logical block
+  uint64 tasks_total = 6;                     // total number of concurrent rebuild tasks
+  uint64 tasks_active = 7;                    // number of current active tasks
+  bool is_partial = 10;                       // true for partial (only modified blocked transferred); false for the full rebuild (all blocks transferred)
+  google.protobuf.Timestamp start_time = 11;  // start time of the rebuild (UTC)
 }
 
 enum RebuildJobState {
-  INIT = 0;        // Initialized, not yet rebuilding
-  REBUILDING = 1;  // Running rebuild
-  STOPPED = 2;     // Stopped rebuild
-  PAUSED = 3;      // Paused rebuild
-  FAILED = 4;      // Failed for some reason
-  COMPLETED = 5;   // Rebuild completed succesfully
+  Init = 0;        // Initialized, not yet rebuilding
+  Rebuilding = 1;  // Running rebuild
+  Stopped = 2;     // Stopped rebuild
+  Paused = 3;      // Paused rebuild
+  Failed = 4;      // Failed for some reason
+  Completed = 5;   // Rebuild completed succesfully
 }
 
 message RebuildHistoryRequest {
@@ -325,13 +329,18 @@ message RebuildHistoryResponse {
 }
 
 message RebuildHistoryRecord {
-  string dst_uri = 1;                       // URI of the rebuilt replica (destination)
-  string src_uri = 2;                       // URI of the source replica
-  RebuildJobState state = 3;                // Final state of the rebuild job
-  uint64 rebuilt_data_size = 4;             // Size of the data rebuilt
-  bool is_partial = 5;                      // Full or Partial rebuild
-  google.protobuf.Timestamp started_at = 6; // Start timestamp(UTC) of the rebuild job
-  google.protobuf.Timestamp ended_at = 7;   // End timestamp(UTC) of the rebuild job
+  string child_uri = 1;                      // URI of the rebuilt child (destination)
+  string src_uri = 2;                        // URI of the source replica
+  RebuildJobState state = 3;                 // final state of the rebuild job
+  uint64 blocks_total = 4;                   // total number of blocks of the replicas
+  uint64 blocks_recovered = 5;               // number of blocks recovered
+  uint64 blocks_transferred = 6;             // number of blocks for which the actual data transfer occurred
+  uint64 blocks_remaining = 7;               // number of blocks remaining to transfer
+  uint64 blocks_per_task = 8;                // granularity of each recovery task in blocks
+  uint64 block_size = 9;                     // size in bytes of logical block
+  bool is_partial = 10;                      // true for partial (only modified blocked transferred); false for the full rebuild (all blocks transferred)
+  google.protobuf.Timestamp start_time = 11; // start time of the rebuild (UTC)
+  google.protobuf.Timestamp end_time = 12;   // end time of the rebuild (UTC)
 }
 
 message StartRebuildRequest {
