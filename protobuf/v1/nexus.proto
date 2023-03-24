@@ -19,7 +19,10 @@ service NexusRpc {
   rpc ListNexus (ListNexusOptions) returns (ListNexusResponse) {}
   rpc AddChildNexus (AddChildNexusRequest) returns (AddChildNexusResponse) {}
   rpc RemoveChildNexus (RemoveChildNexusRequest) returns (RemoveChildNexusResponse) {}
+
+  // take a child offline permanently; exactly the same ChildOperation OfflinePermanent
   rpc FaultNexusChild (FaultNexusChildRequest) returns (FaultNexusChildResponse) {}
+
   rpc ShutdownNexus (ShutdownNexusRequest) returns (ShutdownNexusResponse) {}
 
   // Nexus-level fault injection and other development methods
@@ -266,9 +269,10 @@ message SetNvmeAnaStateRequest {
 }
 
 enum ChildAction {
-  Offline = 0;
-  Online = 1;
-  Retire = 2;
+  Offline = 0;          // take a child offline, e.g. for maintenance
+  Online = 1;           // bring a child online which was previously offlined or faulted
+  FaultIOError = 2;     // fault a child with an I/O error (e.g. for testing/debug purposes)
+  OfflinePermanent = 3; // take a child offline permanently; exactly the same a legacy FaultNexusChild method
 }
 
 message ChildOperationRequest {
