@@ -11,8 +11,6 @@ option java_outer_classname = "MayastorProto";
 
 package mayastor;
 
-import "google/protobuf/timestamp.proto";
-
 // Service for managing storage pools, replicas and nexus's.
 // Replica holds the actual user data. From user application the
 // data are accessed indirectly through nexus object.
@@ -81,7 +79,6 @@ service Mayastor {
   rpc GetRebuildState (RebuildStateRequest) returns (RebuildStateReply) {}
   rpc GetRebuildStats (RebuildStatsRequest) returns (RebuildStatsReply) {}
   rpc GetRebuildProgress (RebuildProgressRequest) returns (RebuildProgressReply) {}
-  rpc GetRebuildHistory (RebuildHistoryRequest) returns (RebuildHistoryReply) {}
 
   // Snapshot operations
   rpc CreateSnapshot (CreateSnapshotRequest) returns (CreateSnapshotReply) {}
@@ -501,35 +498,6 @@ message RebuildStatsReply {
   uint64 block_size = 5; // size in bytes of each block
   uint64 tasks_total = 6; // total number of concurrent rebuild tasks
   uint64 tasks_active = 7; // number of current active tasks
-}
-
-enum RebuildJobState {
-  INIT = 0;        // Initialized, not yet rebuilding
-  REBUILDING = 1;  // Running rebuild
-  STOPPED = 2;     // Stopped rebuild
-  PAUSED = 3;      // Paused rebuild
-  FAILED = 4;      // Failed for some reason
-  COMPLETED = 5;   // Rebuild completed succesfully
-}
-
-message RebuildHistoryRequest {
-  string uuid = 1;  // uuid of the nexus
-}
-
-message RebuildHistoryReply {
-  string nexus = 1;                          // uuid of the nexus
-  repeated RebuildHistoryRecord records = 2; // List of all the rebuild records
-                                             // across all the replicas
-}
-
-message RebuildHistoryRecord {
-  string dst_uri = 1;                       // URI of the rebuilt replica (destination)
-  string src_uri = 2;                       // URI of the source replica
-  RebuildJobState state = 3;                // Final state of the rebuild job
-  uint64 rebuilt_data_size = 4;             // Size of the data rebuilt
-  bool is_partial = 5;                      // Full or Partial rebuild
-  google.protobuf.Timestamp started_at = 6; // Start timestamp(UTC) of the rebuild job
-  google.protobuf.Timestamp ended_at = 7;   // End timestamp(UTC) of the rebuild job
 }
 
 message StartRebuildRequest {
