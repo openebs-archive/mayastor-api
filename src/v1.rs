@@ -41,6 +41,7 @@ pub mod pool {
 
 pub mod replica {
     pub use super::pb::{
+        destroy_replica_request,
         replica_rpc_client::ReplicaRpcClient,
         replica_rpc_server::{ReplicaRpc, ReplicaRpcServer},
         CreateReplicaRequest, DestroyReplicaRequest, ListReplicaOptions, ListReplicasResponse,
