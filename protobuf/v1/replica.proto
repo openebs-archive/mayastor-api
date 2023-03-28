@@ -52,7 +52,11 @@ message CreateReplicaRequest {
 
 // Destroy replica arguments.
 message DestroyReplicaRequest {
-  string uuid = 1;  // uuid of the replica
+  string uuid = 1;  // uuid of the replica.
+  oneof pool {
+    string pool_name = 2; // name of the pool where the replica resides.
+    string pool_uuid = 3; // optional uuid for the pool where the replica resides.
+  }
 }
 
 // Share replica request.
@@ -75,6 +79,7 @@ message ListReplicasResponse {
 
 message ListReplicaOptions {
   google.protobuf.StringValue name = 1; // list the replica with the name if provided
-  google.protobuf.StringValue poolname = 2; // list the replicas on the provided pool
+  google.protobuf.StringValue poolname = 2; // list the replicas on the provided pool, by name
   google.protobuf.StringValue uuid = 3; // list the replica with the uuid if provided
+  google.protobuf.StringValue pooluuid = 4; // list the replicas on the provided pool, by uuid
 }
