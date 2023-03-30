@@ -15,6 +15,7 @@ service ReplicaRpc {
   rpc ListReplicas (ListReplicaOptions) returns (ListReplicasResponse) {}
   rpc ShareReplica (ShareReplicaRequest) returns (Replica) {}
   rpc UnshareReplica (UnshareReplicaRequest) returns (Replica) {}
+  rpc CreateReplicaSnapshot(CreateReplicaSnapshotRequest) returns (CreateReplicaSnapshotResponse) {}
 }
 
 // Replica space usage
@@ -82,4 +83,16 @@ message ListReplicaOptions {
   google.protobuf.StringValue poolname = 2; // list the replicas on the provided pool, by name
   google.protobuf.StringValue uuid = 3; // list the replica with the uuid if provided
   google.protobuf.StringValue pooluuid = 4; // list the replicas on the provided pool, by uuid
+}
+
+// Create Replica Snapshot Request.
+message CreateReplicaSnapshotRequest {
+  string replica_uuid = 1;  // uuid of the replica
+  string snapshot_name = 2; // snapshot to be created
+  string txn_id = 3; // unique transaction id generate for snapshot creation
+}
+
+/// Create Replica Snapshot Response.
+message CreateReplicaSnapshotResponse {
+  string snapshot_uuid = 1; // UUID of the snapshot newly created
 }
