@@ -50,6 +50,9 @@ service NexusRpc {
   rpc GetRebuildState (RebuildStateRequest) returns (RebuildStateResponse) {}
   rpc GetRebuildStats (RebuildStatsRequest) returns (RebuildStatsResponse) {}
   rpc GetRebuildHistory (RebuildHistoryRequest) returns (RebuildHistoryResponse) {}
+
+  // Nexus snapshot operations.
+  rpc CreateSnapshot(CreateSnapshotRequest) returns (CreateSnapshotResponse) {}
 }
 
 // Create nexus arguments.
@@ -65,6 +68,19 @@ message CreateNexusRequest {
   string nexusInfoKey = 9; // the key to use to persist the nexus info structure
   optional NvmeReservation resvType = 10; // the reservation type to use
   NexusNvmePreemption preemptPolicy = 11; // the preemption policy to use
+}
+
+// Create nexus snapshot.
+message CreateSnapshotRequest {
+  string nexus_uuid = 1;    // UUID of the nexus.
+  string snapshot_name = 2; // User-specific snapshot name.
+  string entity_id = 3;     // ID of the entity this snapshot associated with.
+  string txn_id = 4;        // Unique transaction id for the snapshot.
+}
+
+// Nexus snapshot creation response.
+message CreateSnapshotResponse {
+  Nexus nexus = 1;
 }
 
 /// Nexus NVMe preemption policy.
