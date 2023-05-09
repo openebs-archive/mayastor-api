@@ -2,8 +2,9 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
-import "common.proto";
+import "google/protobuf/timestamp.proto";
 
+import "common.proto";
 package mayastor.v1;
 
 service ReplicaRpc {
@@ -16,6 +17,8 @@ service ReplicaRpc {
   rpc ShareReplica (ShareReplicaRequest) returns (Replica) {}
   rpc UnshareReplica (UnshareReplicaRequest) returns (Replica) {}
   rpc CreateReplicaSnapshot(CreateReplicaSnapshotRequest) returns (CreateReplicaSnapshotResponse) {}
+  rpc ListReplicaSnapshot(ListReplicaSnapshotsRequest) returns (ListReplicaSnapshotsResponse) {}
+  rpc DeleteReplicaSnapshot(DeleteReplicaSnapshotRequest) returns (google.protobuf.Empty) {}
 }
 
 // Replica space usage
@@ -88,11 +91,41 @@ message ListReplicaOptions {
 // Create Replica Snapshot Request.
 message CreateReplicaSnapshotRequest {
   string replica_uuid = 1;  // uuid of the replica
-  string snapshot_name = 2; // snapshot to be created
-  string txn_id = 3; // unique transaction id generate for snapshot creation
+  string snapshot_uuid = 2; // uuid of the snapshot
+  string snapshot_name = 3; // snapshot name
+  string entity_id = 4;     // entity associated with this snapshot
+  string txn_id = 5; // unique transaction id generate for snapshot creation
 }
 
 /// Create Replica Snapshot Response.
 message CreateReplicaSnapshotResponse {
-  string snapshot_uuid = 1; // UUID of the snapshot newly created
+  string replica_uuid = 1; // UUID of the source replica
+  ReplicaSnapshot snapshot = 2; // Snapshot detail information
+}
+
+/// List Replica Snapshot Request.
+message ListReplicaSnapshotsRequest {
+  string replica_uuid = 1;  // uuid of the replica to list snapshots for
+}
+
+/// Replica Snapshot Params to Return in ListSnapshot.
+message ReplicaSnapshot {
+  string snapshot_uuid = 1; // uuid of the snapshot
+  string snapshot_name = 2; // name of the snapshot
+  uint64 snapshot_size = 3; // amount of bytes referenced by snapshot
+  uint64 num_clones = 4; // number of clones created from this snapshot
+  google.protobuf.Timestamp timestamp = 5; // snapshot creation_timestamp
+  string replica_uuid = 6; // uuid of the replica this snapshot is taken from
+  uint64 replica_size = 7; // amount of bytes referenced by replica
+  string entity_id = 8; // uuid of the entity for which snapshot is taken.
+  string txn_id = 9; // unique transaction id for snapshot.
+}
+
+/// List Replica Snapshot Response.
+message ListReplicaSnapshotsResponse {
+  repeated ReplicaSnapshot snapshots = 1; // list of ReplicaSnapshot Params.
+}
+/// Delete Replica Snapshot Request.
+message DeleteReplicaSnapshotRequest {
+  string snapshot_uuid = 1; // snapshot to be deleted
 }
