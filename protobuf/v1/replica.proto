@@ -105,7 +105,7 @@ message CreateReplicaSnapshotResponse {
 
 /// List Replica Snapshot Request.
 message ListReplicaSnapshotsRequest {
-  string replica_uuid = 1;  // uuid of the replica to list snapshots for
+  optional string replica_uuid = 1;  // uuid of the replica to list snapshots
 }
 
 /// Replica Snapshot Params to Return in ListSnapshot.
@@ -119,6 +119,7 @@ message ReplicaSnapshot {
   uint64 replica_size = 7; // amount of bytes referenced by replica
   string entity_id = 8; // uuid of the entity for which snapshot is taken.
   string txn_id = 9; // unique transaction id for snapshot.
+  bool valid_snapshot = 10; // true: valid, false: invalid (missing one/more snapshotdescriptor field i.e. txn_id, entity_id, replica_uuid
 }
 
 /// List Replica Snapshot Response.
