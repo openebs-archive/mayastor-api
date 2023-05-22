@@ -45,9 +45,9 @@ pub mod replica {
         replica_rpc_client::ReplicaRpcClient,
         replica_rpc_server::{ReplicaRpc, ReplicaRpcServer},
         CreateReplicaRequest, CreateReplicaSnapshotRequest, CreateReplicaSnapshotResponse,
-        DeleteReplicaSnapshotRequest, DestroyReplicaRequest, ListReplicaOptions,
-        ListReplicaSnapshotsRequest, ListReplicaSnapshotsResponse, ListReplicasResponse, Replica,
-        ReplicaSnapshot, ReplicaSpaceUsage, ShareReplicaRequest, UnshareReplicaRequest,
+        DestroyReplicaRequest, ListReplicaOptions, ListReplicaSnapshotsRequest,
+        ListReplicaSnapshotsResponse, ListReplicasResponse, Replica, ReplicaSpaceUsage,
+        ShareReplicaRequest, UnshareReplicaRequest,
     };
 }
 pub mod registration {
@@ -85,6 +85,10 @@ pub mod nexus {
         ShutdownNexusRequest, ShutdownNexusResponse, StartRebuildRequest, StartRebuildResponse,
         StopRebuildRequest, StopRebuildResponse, UnpublishNexusRequest, UnpublishNexusResponse,
     };
+}
+
+pub mod snapshot {
+    pub use super::pb::DeleteSnapshotRequest;
 }
 
 #[derive(Debug)]
