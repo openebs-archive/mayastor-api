@@ -119,6 +119,7 @@ message Child {
   int32 rebuild_progress = 4;         // rebuild progress
   optional string device_name = 5;    // child device name
   google.protobuf.Timestamp fault_timestamp = 6;   // timestamp(UTC) when child went faulted
+  bool has_io_log = 7;                // true if the child has an active I/O log
 }
 
 // State of the nexus (terminology inspired by ZFS).
