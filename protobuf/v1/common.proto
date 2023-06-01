@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 package mayastor.v1;
-
 // Protocol over which the bdev/replica/nexus etc will be shared.
 enum ShareProtocol {
   NONE = 0; // not exposed
