@@ -50,9 +50,6 @@ service NexusRpc {
   rpc GetRebuildState (RebuildStateRequest) returns (RebuildStateResponse) {}
   rpc GetRebuildStats (RebuildStatsRequest) returns (RebuildStatsResponse) {}
   rpc GetRebuildHistory (RebuildHistoryRequest) returns (RebuildHistoryResponse) {}
-
-  // Snapshot operations
-  rpc CreateSnapshot (NexusCreateSnapshotRequest) returns (NexusCreateSnapshotResponse) {}
 }
 
 // Create nexus arguments.
@@ -385,30 +382,4 @@ message ResumeRebuildRequest {
 
 message ResumeRebuildResponse {
   Nexus nexus = 1;
-}
-
-message NexusCreateSnapshotRequest {
-  string nexus_uuid = 1;     // uuid of the nexus
-  string entity_id = 2;      // entity associated with this snapshot
-  string txn_id = 3;         // transaction id of the snapshot
-  string snapshot_name = 4;  // name of the snapshot
-  repeated NexusCreateSnapshotReplicaDescriptor replicas = 5; // replicas that participate in snapshot operation
-}
-
-message NexusCreateSnapshotReplicaDescriptor {
-  string replica_uuid = 1;           // uuid of the replica
-  optional string snapshot_uuid = 2; // uuid of the snapshot (can be omitted if replica is skipped)
-  bool skip = 3;                     // skip this replica
-}
-
-message NexusCreateSnapshotResponse {
-  Nexus nexus = 1;                                             // nexus descriptor
-  google.protobuf.Timestamp snapshot_timestamp = 2;            // snapshot creation timestamp
-  repeated NexusCreateSnapshotReplicaStatus replicas_done = 3; // status for replicas that participated in nexus snapshot operation
-  repeated string replicas_skipped = 4;                        // replicas that did not participate in nexus snapshot operation (uuids)
-}
-
-message NexusCreateSnapshotReplicaStatus {
-  string replica_uuid = 1; // uuid of the replica
-  uint32 status_code = 2;  // snapshot operation status (0 means successful completion)
 }

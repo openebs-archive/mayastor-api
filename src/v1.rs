@@ -44,10 +44,19 @@ pub mod replica {
         destroy_replica_request,
         replica_rpc_client::ReplicaRpcClient,
         replica_rpc_server::{ReplicaRpc, ReplicaRpcServer},
-        CreateReplicaRequest, CreateReplicaSnapshotRequest, CreateReplicaSnapshotResponse,
-        DeleteReplicaSnapshotRequest, DestroyReplicaRequest, ListReplicaOptions,
-        ListReplicaSnapshotsRequest, ListReplicaSnapshotsResponse, ListReplicasResponse, Replica,
-        ReplicaSnapshot, ReplicaSpaceUsage, ShareReplicaRequest, UnshareReplicaRequest,
+        CreateReplicaRequest, DestroyReplicaRequest, ListReplicaOptions, ListReplicasResponse,
+        Replica, ReplicaSpaceUsage, ShareReplicaRequest, SnapshotInfo, UnshareReplicaRequest,
+    };
+}
+pub mod snapshot {
+    pub use super::pb::{
+        destroy_snapshot_request,
+        snapshot_rpc_client::SnapshotRpcClient,
+        snapshot_rpc_server::{SnapshotRpc, SnapshotRpcServer},
+        CreateReplicaSnapshotRequest, CreateReplicaSnapshotResponse, DestroySnapshotRequest,
+        ListSnapshotsRequest, ListSnapshotsResponse, Nexus, NexusCreateSnapshotReplicaDescriptor,
+        NexusCreateSnapshotReplicaStatus, NexusCreateSnapshotRequest, NexusCreateSnapshotResponse,
+        SnapshotInfo,
     };
 }
 pub mod registration {
@@ -74,16 +83,15 @@ pub mod nexus {
         CreateNexusResponse, DestroyNexusRequest, FaultNexusChildRequest, FaultNexusChildResponse,
         GetNvmeAnaStateRequest, GetNvmeAnaStateResponse, InjectNexusFaultRequest, InjectedFault,
         ListInjectedNexusFaultsReply, ListInjectedNexusFaultsRequest, ListNexusOptions,
-        ListNexusResponse, Nexus, NexusCreateSnapshotReplicaDescriptor,
-        NexusCreateSnapshotReplicaStatus, NexusCreateSnapshotRequest, NexusCreateSnapshotResponse,
-        NexusNvmePreemption, NexusState, NvmeAnaState, NvmeReservation, PauseRebuildRequest,
-        PauseRebuildResponse, PublishNexusRequest, PublishNexusResponse, RebuildHistoryRecord,
-        RebuildHistoryRequest, RebuildHistoryResponse, RebuildJobState, RebuildStateRequest,
-        RebuildStateResponse, RebuildStatsRequest, RebuildStatsResponse, RemoveChildNexusRequest,
-        RemoveChildNexusResponse, RemoveInjectedNexusFaultRequest, ResumeRebuildRequest,
-        ResumeRebuildResponse, SetNvmeAnaStateRequest, SetNvmeAnaStateResponse, ShareProtocol,
-        ShutdownNexusRequest, ShutdownNexusResponse, StartRebuildRequest, StartRebuildResponse,
-        StopRebuildRequest, StopRebuildResponse, UnpublishNexusRequest, UnpublishNexusResponse,
+        ListNexusResponse, Nexus, NexusNvmePreemption, NexusState, NvmeAnaState, NvmeReservation,
+        PauseRebuildRequest, PauseRebuildResponse, PublishNexusRequest, PublishNexusResponse,
+        RebuildHistoryRecord, RebuildHistoryRequest, RebuildHistoryResponse, RebuildJobState,
+        RebuildStateRequest, RebuildStateResponse, RebuildStatsRequest, RebuildStatsResponse,
+        RemoveChildNexusRequest, RemoveChildNexusResponse, RemoveInjectedNexusFaultRequest,
+        ResumeRebuildRequest, ResumeRebuildResponse, SetNvmeAnaStateRequest,
+        SetNvmeAnaStateResponse, ShareProtocol, ShutdownNexusRequest, ShutdownNexusResponse,
+        StartRebuildRequest, StartRebuildResponse, StopRebuildRequest, StopRebuildResponse,
+        UnpublishNexusRequest, UnpublishNexusResponse,
     };
 }
 
