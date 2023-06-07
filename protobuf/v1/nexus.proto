@@ -50,6 +50,8 @@ service NexusRpc {
   rpc GetRebuildState (RebuildStateRequest) returns (RebuildStateResponse) {}
   rpc GetRebuildStats (RebuildStatsRequest) returns (RebuildStatsResponse) {}
   rpc GetRebuildHistory (RebuildHistoryRequest) returns (RebuildHistoryResponse) {}
+  rpc ListRebuildHistory (ListRebuildHistoryRequest) returns (RebuildHistoryMapResponse) {}
+
 }
 
 // Create nexus arguments.
@@ -323,8 +325,16 @@ enum RebuildJobState {
   Completed = 5;   // Rebuild completed succesfully
 }
 
+message ListRebuildHistoryRequest {
+  optional uint32 count = 1; // Maximum of rebuild records to be returned per nexus.
+}
+
 message RebuildHistoryRequest {
   string uuid = 1;  // uuid of the nexus
+}
+
+message RebuildHistoryMapResponse {
+  map<string, RebuildHistoryResponse>  histories = 1; // Map of Nexus Id and its rebuild history.
 }
 
 message RebuildHistoryResponse {
