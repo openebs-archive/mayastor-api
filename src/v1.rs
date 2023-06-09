@@ -53,10 +53,11 @@ pub mod snapshot {
         destroy_snapshot_request,
         snapshot_rpc_client::SnapshotRpcClient,
         snapshot_rpc_server::{SnapshotRpc, SnapshotRpcServer},
-        CreateReplicaSnapshotRequest, CreateReplicaSnapshotResponse, DestroySnapshotRequest,
+        CreateReplicaSnapshotRequest, CreateReplicaSnapshotResponse, CreateSnapshotCloneRequest,
+        DestroySnapshotRequest, ListSnapshotCloneRequest, ListSnapshotCloneResponse,
         ListSnapshotsRequest, ListSnapshotsResponse, Nexus, NexusCreateSnapshotReplicaDescriptor,
         NexusCreateSnapshotReplicaStatus, NexusCreateSnapshotRequest, NexusCreateSnapshotResponse,
-        SnapshotInfo,
+        Replica, SnapshotInfo,
     };
 }
 pub mod registration {
