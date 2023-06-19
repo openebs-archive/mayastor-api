@@ -1,9 +1,9 @@
 syntax = "proto3";
 
 import "google/protobuf/empty.proto";
-import "google/protobuf/wrappers.proto";
 import "google/protobuf/timestamp.proto";
 
+import "replica.proto";
 import "nexus.proto";
 package mayastor.v1;
 
@@ -13,6 +13,8 @@ service SnapshotRpc {
     rpc CreateNexusSnapshot(NexusCreateSnapshotRequest) returns (NexusCreateSnapshotResponse) {}
     rpc ListSnapshot(ListSnapshotsRequest) returns (ListSnapshotsResponse) {}
     rpc DestroySnapshot(DestroySnapshotRequest) returns (google.protobuf.Empty) {}
+    rpc CreateSnapshotClone(CreateSnapshotCloneRequest) returns (Replica) {}
+    rpc ListSnapshotClone(ListSnapshotCloneRequest) returns (ListSnapshotCloneResponse) {}
 }
 
 /// Parameter details of a single snapshot
@@ -88,4 +90,20 @@ message NexusCreateSnapshotResponse {
 message NexusCreateSnapshotReplicaStatus {
     string replica_uuid = 1; // uuid of the replica
     uint32 status_code = 2;  // snapshot operation status (0 means successful completion)
+}
+
+/// Request Parameters for Creating Snapshot Clone.
+message CreateSnapshotCloneRequest {
+    string snapshot_uuid = 1; // uuid of the snapshot
+    string clone_name = 2; // snapshot clone name
+    string clone_uuid = 3; // uuid of the clone to be created from snapshot
+}
+
+/// Request Parameters for List Snapshot Clone.
+message ListSnapshotCloneRequest {
+    optional string snapshot_uuid = 1; // if snapshot uuid is present, return snapshot specific clone, else return all clones
+}
+/// Response Parameters for List Snapshot Clone.
+message ListSnapshotCloneResponse {
+  repeated Replica replicas = 1;  // list of the replicas
 }
