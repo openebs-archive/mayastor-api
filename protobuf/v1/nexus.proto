@@ -50,7 +50,7 @@ service NexusRpc {
   rpc GetRebuildState (RebuildStateRequest) returns (RebuildStateResponse) {}
   rpc GetRebuildStats (RebuildStatsRequest) returns (RebuildStatsResponse) {}
   rpc GetRebuildHistory (RebuildHistoryRequest) returns (RebuildHistoryResponse) {}
-  rpc ListRebuildHistory (ListRebuildHistoryRequest) returns (RebuildHistoryMapResponse) {}
+  rpc ListRebuildHistory (ListRebuildHistoryRequest) returns (ListRebuildHistoryResponse) {}
 
 }
 
@@ -327,19 +327,22 @@ enum RebuildJobState {
 
 message ListRebuildHistoryRequest {
   optional uint32 count = 1; // Maximum of rebuild records to be returned per nexus.
+  optional google.protobuf.Timestamp since_end_time = 2; // List records with an end_time starting from this timestamp.
 }
 
 message RebuildHistoryRequest {
   string uuid = 1;  // uuid of the nexus
 }
 
-message RebuildHistoryMapResponse {
-  map<string, RebuildHistoryResponse>  histories = 1; // Map of Nexus Id and its rebuild history.
+message ListRebuildHistoryResponse {
+  map<string, RebuildHistoryResponse> histories = 1; // Map of Nexus Id and its rebuild history.
+  google.protobuf.Timestamp            end_time = 2; // Newest end_time record. Next List call can use this as since_end_time.
 }
 
 message RebuildHistoryResponse {
-  string nexus = 1;                          // uuid of the nexus
-  repeated RebuildHistoryRecord records = 2; // List of all the rebuild records
+  string uuid = 1;                           // uuid of the nexus
+  string name = 2;                           // name of the nexus
+  repeated RebuildHistoryRecord records = 3; // List of all the rebuild records
                                              // across all the replicas
 }
 
