@@ -38,6 +38,7 @@ message Replica {
   string poolname = 8; // name of the pool on which replica is present
   ReplicaSpaceUsage usage = 9; // replica space usage
   repeated string allowed_hosts = 10; // host (nqn's) which are allowed to connect to the target
+  bool is_snapshot = 11; // true: snapshot false: normal replica
 }
 
 message CreateReplicaRequest {
