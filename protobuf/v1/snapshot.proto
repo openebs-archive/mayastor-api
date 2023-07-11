@@ -32,6 +32,7 @@ message SnapshotInfo {
     string txn_id = 11; // unique transaction id for snapshot.
     bool valid_snapshot = 12; // true: valid, false: invalid (missing one/more snapshotdescriptor field i.e. txn_id, entity_id, source_uuid
     bool ready_as_source = 13; // ready for usage, i,e source for another volume.
+    uint64 referenced_bytes = 14; // amount of bytes referenced by all successor snapshots.
 }
 /// Request parameters to list snapshot.
 message ListSnapshotsRequest {
