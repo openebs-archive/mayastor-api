@@ -25,11 +25,6 @@ service NexusRpc {
 
   rpc ShutdownNexus (ShutdownNexusRequest) returns (ShutdownNexusResponse) {}
 
-  // Nexus-level fault injection and other development methods
-  rpc InjectNexusFault (InjectNexusFaultRequest) returns (google.protobuf.Empty) {}
-  rpc RemoveInjectedNexusFault (RemoveInjectedNexusFaultRequest) returns (google.protobuf.Empty) {}
-  rpc ListInjectedNexusFaults (ListInjectedNexusFaultsRequest) returns (ListInjectedNexusFaultsReply) {}
-
   // This method is called by control plane to construct a block device
   // (/dev/...) that will be used to connect the nexus to the OS.
   rpc PublishNexus (PublishNexusRequest) returns (PublishNexusResponse) {}
@@ -209,29 +204,6 @@ message FaultNexusChildRequest {
 
 message FaultNexusChildResponse {
   Nexus nexus = 1;
-}
-
-message InjectNexusFaultRequest {
-  string uuid = 1;    // uuid of the nexus
-  string uri = 2;     // Fault injection URI
-}
-
-message RemoveInjectedNexusFaultRequest {
-  string uuid = 1;    // uuid of the nexus
-  string uri = 2;     // Fault injection URI
-}
-
-message InjectedFault {
-  string device_name = 1;
-  bool is_active = 2;
-}
-
-message ListInjectedNexusFaultsRequest {
-  string uuid = 1;    // uuid of the nexus
-}
-
-message ListInjectedNexusFaultsReply {
-  repeated InjectedFault injections = 1;
 }
 
 // this message will be subject to change as we will add support for remote

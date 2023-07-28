@@ -14,6 +14,18 @@ service TestRpc {
   // The replica MUST NOT have any user data and must not be currently used
   // by any nexus => this will cause data loss!
   rpc WipeReplica (WipeReplicaRequest) returns (stream WipeReplicaResponse) {}
+
+  //
+  // Fault injection methods.
+  //
+  // Add a fault injection.
+  rpc AddFaultInjection (AddFaultInjectionRequest) returns (google.protobuf.Empty) {}
+
+  // Remove a fault injection.
+  rpc RemoveFaultInjection (RemoveFaultInjectionRequest) returns (google.protobuf.Empty) {}
+
+  // List existing fault injections.
+  rpc ListFaultInjections (ListFaultInjectionsRequest) returns (ListFaultInjectionsReply) {}
 }
 
 message WipeReplicaRequest {
@@ -78,3 +90,29 @@ message WipeReplicaResponse {
   google.protobuf.Duration since = 9;
 }
 
+message FaultInjection {
+  // URI that was used to add the fault injection.
+  string uri = 1;
+  // Target device name to which the injection applies.
+  string device_name = 2;
+  // True if the injection is currently active (injection active condition
+  // has been met).
+  bool is_active = 3;
+}
+
+message AddFaultInjectionRequest {
+  // URI that defines injection target and parameters.
+  string uri = 1;
+}
+
+message RemoveFaultInjectionRequest {
+  // URI that was used to add the fault injection.
+  string uri = 1;
+}
+
+  message ListFaultInjectionsRequest {
+}
+
+message ListFaultInjectionsReply {
+  repeated FaultInjection injections = 1;
+}
