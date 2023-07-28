@@ -45,7 +45,8 @@ pub mod replica {
         replica_rpc_client::ReplicaRpcClient,
         replica_rpc_server::{ReplicaRpc, ReplicaRpcServer},
         CreateReplicaRequest, DestroyReplicaRequest, ListReplicaOptions, ListReplicasResponse,
-        Replica, ReplicaSpaceUsage, ShareReplicaRequest, SnapshotInfo, UnshareReplicaRequest,
+        Replica, ReplicaSpaceUsage, ReplicaType, ShareReplicaRequest, SnapshotInfo,
+        UnshareReplicaRequest,
     };
 }
 pub mod snapshot {
@@ -57,7 +58,7 @@ pub mod snapshot {
         DestroySnapshotRequest, ListSnapshotCloneRequest, ListSnapshotCloneResponse,
         ListSnapshotsRequest, ListSnapshotsResponse, Nexus, NexusCreateSnapshotReplicaDescriptor,
         NexusCreateSnapshotReplicaStatus, NexusCreateSnapshotRequest, NexusCreateSnapshotResponse,
-        Replica, SnapshotInfo,
+        Replica, SnapshotInfo, SnapshotQueryType,
     };
 }
 pub mod registration {
