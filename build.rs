@@ -18,6 +18,7 @@ fn main() {
         .build_server(true)
         .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
         .extern_path(".google.protobuf.Timestamp", "::prost_wkt_types::Timestamp")
+        .extern_path(".google.protobuf.Duration", "::prost_wkt_types::Duration")
         .compile(
             &[
                 "protobuf/v1/bdev.proto",
@@ -28,6 +29,7 @@ fn main() {
                 "protobuf/v1/nexus.proto",
                 "protobuf/v1/registration.proto",
                 "protobuf/v1/snapshot.proto",
+                "protobuf/v1/test.proto",
             ],
             &["protobuf/v1"],
         )
