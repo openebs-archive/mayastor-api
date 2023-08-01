@@ -97,6 +97,15 @@ pub mod nexus {
     };
 }
 
+pub mod test {
+    pub use super::pb::{
+        test_rpc_client::TestRpcClient,
+        test_rpc_server::{TestRpc, TestRpcServer},
+        wipe_options, wipe_replica_request, StreamWipeOptions, WipeOptions, WipeReplicaRequest,
+        WipeReplicaResponse,
+    };
+}
+
 #[derive(Debug)]
 pub enum Error {
     ParseError,
