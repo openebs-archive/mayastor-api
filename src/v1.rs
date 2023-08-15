@@ -83,17 +83,16 @@ pub mod nexus {
         AddChildNexusRequest, AddChildNexusResponse, Child, ChildAction, ChildOperationRequest,
         ChildOperationResponse, ChildState, ChildStateReason, CreateNexusRequest,
         CreateNexusResponse, DestroyNexusRequest, FaultNexusChildRequest, FaultNexusChildResponse,
-        GetNvmeAnaStateRequest, GetNvmeAnaStateResponse, InjectNexusFaultRequest, InjectedFault,
-        ListInjectedNexusFaultsReply, ListInjectedNexusFaultsRequest, ListNexusOptions,
-        ListNexusResponse, ListRebuildHistoryRequest, ListRebuildHistoryResponse, Nexus,
-        NexusNvmePreemption, NexusState, NvmeAnaState, NvmeReservation, PauseRebuildRequest,
-        PauseRebuildResponse, PublishNexusRequest, PublishNexusResponse, RebuildHistoryRecord,
-        RebuildHistoryRequest, RebuildHistoryResponse, RebuildJobState, RebuildStateRequest,
-        RebuildStateResponse, RebuildStatsRequest, RebuildStatsResponse, RemoveChildNexusRequest,
-        RemoveChildNexusResponse, RemoveInjectedNexusFaultRequest, ResumeRebuildRequest,
-        ResumeRebuildResponse, SetNvmeAnaStateRequest, SetNvmeAnaStateResponse, ShareProtocol,
-        ShutdownNexusRequest, ShutdownNexusResponse, StartRebuildRequest, StartRebuildResponse,
-        StopRebuildRequest, StopRebuildResponse, UnpublishNexusRequest, UnpublishNexusResponse,
+        GetNvmeAnaStateRequest, GetNvmeAnaStateResponse, ListNexusOptions, ListNexusResponse,
+        ListRebuildHistoryRequest, ListRebuildHistoryResponse, Nexus, NexusNvmePreemption,
+        NexusState, NvmeAnaState, NvmeReservation, PauseRebuildRequest, PauseRebuildResponse,
+        PublishNexusRequest, PublishNexusResponse, RebuildHistoryRecord, RebuildHistoryRequest,
+        RebuildHistoryResponse, RebuildJobState, RebuildStateRequest, RebuildStateResponse,
+        RebuildStatsRequest, RebuildStatsResponse, RemoveChildNexusRequest,
+        RemoveChildNexusResponse, ResumeRebuildRequest, ResumeRebuildResponse,
+        SetNvmeAnaStateRequest, SetNvmeAnaStateResponse, ShareProtocol, ShutdownNexusRequest,
+        ShutdownNexusResponse, StartRebuildRequest, StartRebuildResponse, StopRebuildRequest,
+        StopRebuildResponse, UnpublishNexusRequest, UnpublishNexusResponse,
     };
 }
 
@@ -101,8 +100,9 @@ pub mod test {
     pub use super::pb::{
         test_rpc_client::TestRpcClient,
         test_rpc_server::{TestRpc, TestRpcServer},
-        wipe_options, wipe_replica_request, StreamWipeOptions, WipeOptions, WipeReplicaRequest,
-        WipeReplicaResponse,
+        wipe_options, wipe_replica_request, AddFaultInjectionRequest, FaultInjection,
+        ListFaultInjectionsReply, ListFaultInjectionsRequest, RemoveFaultInjectionRequest,
+        StreamWipeOptions, WipeOptions, WipeReplicaRequest, WipeReplicaResponse,
     };
 }
 
