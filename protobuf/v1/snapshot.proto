@@ -17,7 +17,7 @@ service SnapshotRpc {
     rpc ListSnapshotClone(ListSnapshotCloneRequest) returns (ListSnapshotCloneResponse) {}
 }
 
-/// Parameter details of a single snapshot
+// Parameter details of a single snapshot
 message SnapshotInfo {
     string snapshot_uuid = 1; // uuid of the snapshot
     string snapshot_name = 2; // name of the snapshot
@@ -36,24 +36,24 @@ message SnapshotInfo {
     bool discarded_snapshot = 15; // true: snapshot is marked as discarded. false: Valid Snapshot
 }
 
-/// Request parameters to list snapshot.
+// Request parameters to list snapshot.
 message ListSnapshotsRequest {
     optional string source_uuid = 1;  // source uuid from which snapshot is taken
     optional string snapshot_uuid = 2; // snapshot uuid for which the detail can be listed
     Query query = 3; // list snapshot based on Query's inner field values if some.
 
-    /// Query is used to filter snapshots in list snapshot response based on it's inner field values if some.
+    // Query is used to filter snapshots in list snapshot response based on it's inner field values if some.
     message Query {
         optional bool invalid = 1; // Filter based on invalid if some.
         optional bool discarded = 2; // Filter based on discarded if some.
     }
 }
 
-/// List Snapshot Response.
+// List Snapshot Response.
 message ListSnapshotsResponse {
     repeated SnapshotInfo snapshots = 1; // list of Snapshot Params.
 }
-/// Delete Snapshot Request.
+// Delete Snapshot Request.
 message DestroySnapshotRequest {
     string snapshot_uuid = 1; // snapshot to be deleted
     oneof pool {
@@ -76,7 +76,7 @@ message CreateReplicaSnapshotResponse {
     SnapshotInfo snapshot = 2; // Snapshot detail information
 }
 
-/// Request parameter for Nexus Snapshot Create.
+// Request parameter for Nexus Snapshot Create.
 message NexusCreateSnapshotRequest {
     string nexus_uuid = 1;     // uuid of the nexus
     string entity_id = 2;      // entity associated with this snapshot
@@ -89,7 +89,7 @@ message NexusCreateSnapshotReplicaDescriptor {
     optional string snapshot_uuid = 2; // uuid of the snapshot (can be omitted if replica is skipped)
     bool skip = 3;                     // skip this replica
 }
-/// Response parameter for Nexus Snapshot Create.
+// Response parameter for Nexus Snapshot Create.
 message NexusCreateSnapshotResponse {
     Nexus nexus = 1;                                             // nexus descriptor
     google.protobuf.Timestamp snapshot_timestamp = 2;            // snapshot creation timestamp
@@ -102,18 +102,18 @@ message NexusCreateSnapshotReplicaStatus {
     uint32 status_code = 2;  // snapshot operation status (0 means successful completion)
 }
 
-/// Request Parameters for Creating Snapshot Clone.
+// Request Parameters for Creating Snapshot Clone.
 message CreateSnapshotCloneRequest {
     string snapshot_uuid = 1; // uuid of the snapshot
     string clone_name = 2; // snapshot clone name
     string clone_uuid = 3; // uuid of the clone to be created from snapshot
 }
 
-/// Request Parameters for List Snapshot Clone.
+// Request Parameters for List Snapshot Clone.
 message ListSnapshotCloneRequest {
     optional string snapshot_uuid = 1; // if snapshot uuid is present, return snapshot specific clone, else return all clones
 }
-/// Response Parameters for List Snapshot Clone.
+// Response Parameters for List Snapshot Clone.
 message ListSnapshotCloneResponse {
   repeated Replica replicas = 1;  // list of the replicas
 }
