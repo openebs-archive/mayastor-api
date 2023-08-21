@@ -30,26 +30,23 @@ message SnapshotInfo {
     string pool_name = 9; // pool name in which snapshot is present
     string entity_id = 10; // uuid of the entity for which snapshot is taken.
     string txn_id = 11; // unique transaction id for snapshot.
-    bool valid_snapshot = 12; // true: valid, false: invalid (missing one/more snapshotdescriptor field i.e. txn_id, entity_id, source_uuid
+    bool valid_snapshot = 12; // true: valid, false: invalid (missing one/more snapshot descriptor field i.e. txn_id, entity_id, source_uuid
     bool ready_as_source = 13; // ready for usage, i,e source for another volume.
     uint64 referenced_bytes = 14; // amount of bytes referenced by all successor snapshots.
     bool discarded_snapshot = 15; // true: snapshot is marked as discarded. false: Valid Snapshot
-}
-
-/// SnapshotQueryType enum is used to filter snapshots in listsnapshot response.
-enum SnapshotQueryType {
-    AllSnapshots  = 0; // Default value, to return all the snapshots
-    AllSnapshotsExceptDiscardedSnapshots = 1; // Returns all snapshots except discarded snapshots
-    OnlyDiscardedSnapshots = 2; // Returns only discarded snapshots
-    OnlyInvalidSnapshots = 3; // Returns only invalid snapshots
-    OnlyUsableSnapshots = 4; // Returns only usable snapshots
 }
 
 /// Request parameters to list snapshot.
 message ListSnapshotsRequest {
     optional string source_uuid = 1;  // source uuid from which snapshot is taken
     optional string snapshot_uuid = 2; // snapshot uuid for which the detail can be listed
-    SnapshotQueryType snapshot_query_type = 3; // list snapshot based on SnapshotQueryType value
+    Query query = 3; // list snapshot based on Query's inner field values if some.
+
+    /// Query is used to filter snapshots in list snapshot response based on it's inner field values if some.
+    message Query {
+        optional bool invalid = 1; // Filter based on invalid if some.
+        optional bool discarded = 2; // Filter based on discarded if some.
+    }
 }
 
 /// List Snapshot Response.
