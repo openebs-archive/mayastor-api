@@ -1,4 +1,4 @@
-///!module to access v1 version of grpc APIs
+//! Module to access v1 version of grpc APIs
 use std::str::FromStr;
 // dont export the raw pb generated code
 mod pb {
