@@ -10,3 +10,5 @@ Cargo.lock
 **/*.rs.bk
 
 /rust-toolchain.toml
+.idea
+.vscode

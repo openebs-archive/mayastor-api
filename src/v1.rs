@@ -1,4 +1,4 @@
-///!module to access v1 version of grpc APIs
+//! Module to access v1 version of grpc APIs
 use std::str::FromStr;
 // dont export the raw pb generated code
 mod pb {
@@ -41,12 +41,11 @@ pub mod pool {
 
 pub mod replica {
     pub use super::pb::{
-        destroy_replica_request,
+        destroy_replica_request, list_replica_options,
         replica_rpc_client::ReplicaRpcClient,
         replica_rpc_server::{ReplicaRpc, ReplicaRpcServer},
         CreateReplicaRequest, DestroyReplicaRequest, ListReplicaOptions, ListReplicasResponse,
-        Replica, ReplicaSpaceUsage, ReplicaType, ShareReplicaRequest, SnapshotInfo,
-        UnshareReplicaRequest,
+        Replica, ReplicaSpaceUsage, ShareReplicaRequest, SnapshotInfo, UnshareReplicaRequest,
     };
 }
 pub mod snapshot {
