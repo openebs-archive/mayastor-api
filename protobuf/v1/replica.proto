@@ -83,18 +83,17 @@ message ListReplicasResponse {
   repeated Replica replicas = 1;  // list of the replicas
 }
 
-/// ReplicaType enum is used to filter replica in listreplica response.
-enum ReplicaType {
-  AllReplicas  = 0; // Default value, to return all the replicas including snapshots and clones
-  AllReplicasExceptSnapshots = 1; // Return replicas and snapshot clones, without snapshots
-  OnlySnapshotClones = 2; // Returns only snapshot clones
-  OnlyReplicas = 3; // Returns only replicas
-}
-
 message ListReplicaOptions {
   google.protobuf.StringValue name = 1; // list the replica with the name if provided
   google.protobuf.StringValue poolname = 2; // list the replicas on the provided pool, by name
   google.protobuf.StringValue uuid = 3; // list the replica with the uuid if provided
   google.protobuf.StringValue pooluuid = 4; // list the replicas on the provided pool, by uuid
-  ReplicaType replicatype = 5; // list replica based on ReplicaType value
+  Query query = 5; // list replica based on Query value
+
+  /// Query used for getting specific types of replicas. These are mutually exclusive, ex. a snapshot cannot be clone.
+  message Query {
+    bool replica = 1; // query for selecting or normal replica types.
+    bool snapshot = 2; // query for selecting or snapshot types.
+    bool clone = 3; // query for selecting or clone types.
+  }
 }
