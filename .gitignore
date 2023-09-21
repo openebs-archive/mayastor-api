@@ -12,3 +12,4 @@ Cargo.lock
 /rust-toolchain.toml
 .idea
 .vscode
+.pregenerated
