@@ -36,6 +36,10 @@ message CreatePoolRequest {
   google.protobuf.StringValue uuid = 2; // optional uuid for the pool to be created
   repeated string disks = 3; // disk device paths or URIs to be claimed by the pool
   PoolType pooltype = 4;     // type of the pool
+  // Default cluster size is 4MiB (4 * 1024 * 1024), input cluster size must be in "bytes" but 
+  // must be multiple of 1MiB, else default cluster size i.e 4MiB will be considered. Minimum
+  // cluster size can be input as 1048576 (1024 * 1024) bytes (1MiB)
+  optional uint32 cluster_size = 5;
 }
 
 // Create pool arguments.
@@ -64,6 +68,7 @@ message Pool {
   uint64 used = 6;            // used bytes from the pool
   PoolType pooltype = 7;      // type of the pool
   uint64 committed = 8;       // committed size of all pool replicas (sum of capacities of all replicas)
+  uint32 cluster_size = 9;    // blobstor cluster size set (in bytes) during pool creation
 }
 
 // Destroy pool arguments.
